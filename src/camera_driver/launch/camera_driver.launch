@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="camera_driver" name="camera_driver" type="camera_driver" output="screen">
+    </node>
+</launch>
