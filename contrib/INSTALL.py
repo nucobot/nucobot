@@ -179,5 +179,6 @@ gen_launcher('ros_rebuild_eclipse',           'rosRebuild4Eclipse', 'rosRebuild4
                                                                                            'source ' + LOCAL_BASH_FILE + '\n'\
                                                                                            'echo "Press any key to continue..."\nread')
 
+gen_launcher('ros_simulation',                'rosSimulation',      'rosSimulator.png',    'roslaunch nucobot_description nucobot_rviz.launch')
 
 
