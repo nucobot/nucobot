@@ -23,6 +23,9 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 find_package(Boost REQUIRED COMPONENTS system thread)
 include_directories(${Boost_INCLUDE_DIRS})
 
+## Need to add for catkin_make see FindEigen.cmake in cmake folder
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
 find_package(Eigen REQUIRED)
 include_directories(${EIGEN_INCLUDE_DIRS})
 
