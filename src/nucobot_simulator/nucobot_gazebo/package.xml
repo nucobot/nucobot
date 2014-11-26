@@ -21,5 +21,8 @@
   <run_depend>gazebo_ros</run_depend> 
 
   <export>
+    <gazebo_ros gazebo_media_path="${prefix}/worlds"/>
+    <!--<gazebo_ros_control plugin="${prefix}/drone/plugins/plugin.xml"/>-->
+    <!--<controller_interface plugin="${prefix}/drone/plugins/plugin.xml"/>-->
   </export>
 </package>
