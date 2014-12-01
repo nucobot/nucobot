@@ -37,7 +37,7 @@
   <joint name="tower_$(arg prefix)_base_to_camera" type="fixed">
     <parent link="tower_$(arg prefix)_base_link"/>
     <child link="tower_$(arg prefix)_camera_link"/>
-    <origin xyz="${width} ${width/2} ${height}" rpy="0 0 0"/>
+    <origin xyz="${width} ${width/2} ${height}" rpy="0 0.5 0"/>
   </joint>
 
   <link name="tower_$(arg prefix)_camera_link">
