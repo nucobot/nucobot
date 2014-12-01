@@ -17,18 +17,27 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <!-- Load the URDF into the ROS Parameter Server -->
-  <!--
-  <param name="robot_description"
-	 command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.xacro'" />
-  -->
+  <!-- Load the URDF into the ROS Parameter Server and spawn it in Gazebo-->
+  <!-- Beacons -->
+  <param name="tower_description_g_2" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=g_2 color:=Green" />
+  <node name="urdf_spawner_g_2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x  1.07 -y -1.57 -z 0.4 -R 0.0 -P 0.0 -Y  2.16 -model tower_g_2 -param tower_description_g_2"/>
+  <param name="tower_description_y_1" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=y_1 color:=Yellow" />
+  <node name="urdf_spawner_y_1" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x 0.0 -y -1.57 -z 0.4 -R 0.0 -P 0.0 -Y  1.57 -model tower_y_1 -param tower_description_y_1"/>
+  <param name="tower_description_g_3" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=g_3 color:=Green" />
+  <node name="urdf_spawner_g_3" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x -1.07 -y -1.57 -z 0.4 -R 0.0 -P 0.0 -Y  0.98 -model tower_g_3 -param tower_description_g_3"/>
 
-  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
-  <!--
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-	args="-urdf -model nucobot -param robot_description"/>
-  -->
+  <param name="tower_description_y_2" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=y_2 color:=Yellow" />
+  <node name="urdf_spawner_y_2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x  -1.07 -y  1.57 -z 0.4 -R 0.0 -P 0.0 -Y -0.98 -model tower_y_2 -param tower_description_y_2"/>
+  <param name="tower_description_g_1" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=g_1 color:=Green" />
+  <node name="urdf_spawner_g_1" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x 0.0 -y  1.57 -z 0.4 -R 0.0 -P 0.0 -Y -1.57 -model tower_g_1 -param tower_description_g_1"/>
+  <param name="tower_description_y_3" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=y_3 color:=Yellow" />
+  <node name="urdf_spawner_y_3" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -x  1.07 -y  1.57 -z 0.4 -R 0.0 -P 0.0 -Y -2.16 -model tower_y_3 -param tower_description_y_3"/>
   <!-- ros_control nucobot launch file -->
   <!--include file="$(find nucobot_control)/launch/nucobot_control.launch" /-->
-
 </launch>

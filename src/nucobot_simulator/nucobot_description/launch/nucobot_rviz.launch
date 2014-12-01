@@ -1,6 +1,9 @@
-<launch>
+<launch> <!--
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.xacro'" />
+-->
+  <param name="robot_description"
+    command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro'" />
 
   <!-- send fake joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
