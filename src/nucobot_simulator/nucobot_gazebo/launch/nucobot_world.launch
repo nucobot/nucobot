@@ -1,5 +1,4 @@
 <launch>
-
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
@@ -28,7 +27,6 @@
   <param name="tower_description_g_3" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=g_3 color:=Green" />
   <node name="urdf_spawner_g_3" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="-urdf -x -1.07 -y -1.57 -z 0.4 -R 0.0 -P 0.0 -Y  0.98 -model tower_g_3 -param tower_description_g_3"/>
-
   <param name="tower_description_y_2" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=y_2 color:=Yellow" />
   <node name="urdf_spawner_y_2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="-urdf -x  -1.07 -y  1.57 -z 0.4 -R 0.0 -P 0.0 -Y -0.98 -model tower_y_2 -param tower_description_y_2"/>
