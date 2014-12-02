@@ -36,6 +36,10 @@
   <param name="tower_description_y_3" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro' prefix:=y_3 color:=Yellow" />
   <node name="urdf_spawner_y_3" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="-urdf -x  1.07 -y  1.57 -z 0.4 -R 0.0 -P 0.0 -Y -2.16 -model tower_y_3 -param tower_description_y_3"/>
+  
+  <!-- Spawn the robot -->
+  <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/>
+
   <!-- ros_control nucobot launch file -->
   <!--include file="$(find nucobot_control)/launch/nucobot_control.launch" /-->
 </launch>
