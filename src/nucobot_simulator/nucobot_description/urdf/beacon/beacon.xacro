@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
-<robot name="tower_$(arg prefix)" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="beacon_$(arg prefix)" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Constants for robot dimensions -->
   <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:property name="width"  value="0.08" />
   <xacro:property name="height" value="0.16" />
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find nucobot_description)/urdf/tower.gazebo" />
+  <xacro:include filename="$(find nucobot_description)/urdf/beacon/beacon.gazebo" />
   <!-- Import Rviz colors -->
   <xacro:include filename="$(find nucobot_description)/urdf/materials.xacro" />
 
   <!-- Camera -->
-  <link name="tower_$(arg prefix)_base_link">
+  <link name="beacon_$(arg prefix)_base_link">
     <collision>
       <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
       <geometry>
@@ -34,13 +34,13 @@
     </inertial>
   </link>
 
-  <joint name="tower_$(arg prefix)_base_to_camera" type="fixed">
-    <parent link="tower_$(arg prefix)_base_link"/>
-    <child link="tower_$(arg prefix)_camera_link"/>
+  <joint name="beacon_$(arg prefix)_base_to_camera" type="fixed">
+    <parent link="beacon_$(arg prefix)_base_link"/>
+    <child link="beacon_$(arg prefix)_camera_link"/>
     <origin xyz="${width} ${width/2} ${height}" rpy="0 0.5 0"/>
   </joint>
 
-  <link name="tower_$(arg prefix)_camera_link">
+  <link name="beacon_$(arg prefix)_camera_link">
     <inertial>
       <mass value="1e-6" />
       <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>

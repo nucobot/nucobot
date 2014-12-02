@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot>
   <!-- camera_link -->
-  <gazebo reference="tower_$(arg prefix)_base_link">
+  <gazebo reference="beacon_$(arg prefix)_base_link">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <dampingFactor>0.99</dampingFactor>
@@ -9,7 +9,7 @@
   </gazebo>
 
   <!-- camera -->
-  <gazebo reference="tower_$(arg prefix)_camera_link">
+  <gazebo reference="beacon_$(arg prefix)_camera_link">
     <sensor type="camera" name="camera">
       <update_rate>30.0</update_rate>
       <camera name="webcam">
@@ -35,7 +35,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>tower_$(arg prefix)</cameraName>
+        <cameraName>beacon_$(arg prefix)</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
