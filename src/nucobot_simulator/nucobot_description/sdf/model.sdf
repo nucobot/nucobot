@@ -1,0 +1,136 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name="nucobot">
+  	<static>false</static>
+  		<link name='chassis'>
+            <pose>0 0 .1 0 0 0</pose>
+
+            <collision name='collision'>
+              <geometry>
+                <box>
+                  <size>.25 .3 .1</size>
+                </box>
+              </geometry>
+            </collision>
+
+            <visual name='visual'>
+              <geometry>
+                <box>
+                  <size>.25 .3 .1</size>
+                </box>
+              </geometry>
+            </visual>
+      </link>
+      <link name="left_front_wheel">
+        <pose>0.1 0.175 0.05 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+      <link name="right_front_wheel">
+        <pose>0.1 -0.175 0.05 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+      <link name="left_back_wheel">
+        <pose>-0.1 0.175 0.05 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+      <link name="right_back_wheel">
+        <pose>-0.1 -0.175 0.05 0 1.5707 1.5707</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.05</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+
+      <joint type="revolute" name="left_front_wheel_hinge">
+        <pose>0 0 -0.03 0 0 0</pose>
+        <child>left_front_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+
+      <joint type="revolute" name="right_front_wheel_hinge">
+        <pose>0 0 0.03 0 0 0</pose>
+        <child>right_front_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+      <joint type="revolute" name="left_back_wheel_hinge">
+        <pose>0 0 -0.03 0 0 0</pose>
+        <child>left_back_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+
+      <joint type="revolute" name="right_back_wheel_hinge">
+        <pose>0 0 0.03 0 0 0</pose>
+        <child>right_back_wheel</child>
+        <parent>chassis</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+        </axis>
+      </joint>
+  </model>
+</sdf>
