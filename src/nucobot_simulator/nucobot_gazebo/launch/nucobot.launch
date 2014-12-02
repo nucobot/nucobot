@@ -1,13 +1,7 @@
-<?xml version="1.0"?>
-
 <launch>
-  <arg name="debug" default="true"/>
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-  	<!-- <arg name="world_name" value="worlds/mud.world"/> -->
     <arg name="world_name" value="$(find nucobot_gazebo)/worlds/nucobot.world"/>
-
-   <!-- Spawn a robot into Gazebo -->
-<!-- <node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-sdf -file $(find nucobot_description)/sdf/model.sdf -z 0.1 -model nucobot"/> -->
+    <!-- more default parameters can be changed here -->
   </include>
 </launch>
