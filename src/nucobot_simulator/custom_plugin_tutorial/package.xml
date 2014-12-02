@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>gazebo_tutorials</name>
+  <name>gazebo_tutorials_nucobot</name>
   <version>0.0.0</version>
   <description>The gazebo_tutorials package</description>
 
