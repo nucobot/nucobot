@@ -31,4 +31,7 @@
   <!-- ros_control nucobot launch file -->
   <!--include file="$(find nucobot_control)/launch/nucobot_control.launch" /-->
 
+   <!-- Spawn a robot into Gazebo -->
+<!-- <node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -sdf -model nucobot" /> -->
+
 </launch>
