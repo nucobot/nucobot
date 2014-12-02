@@ -3,7 +3,7 @@
   <arg name="position"/>
 
   <param name="cylinder_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/toys/cylinder.xacro' prefix:=$(arg prefix)" />
-  <node name="urdf_toy_cylinder_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+  <node name="urdf_cylinder_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
         args="-urdf $(arg position) -model cylinder_$(arg prefix) -param cylinder_description_$(arg prefix)"/>
 
 </launch>

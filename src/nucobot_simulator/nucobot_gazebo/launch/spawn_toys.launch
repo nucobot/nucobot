@@ -1,6 +1,54 @@
 <launch>
+  <!-- cylinders -->
   <include file="$(find nucobot_gazebo)/launch/include/spawn_cylinder.launch">
-    <arg name="prefix"   value="_0"/>                          <!-- the cylinder name is cylinder_$(prefix) -->
-    <arg name="position" value="-x 0.0 -y 0.0 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="prefix"   value="_0"/>                         <!-- the cylinder name is cylinder_$(prefix) -->
+    <arg name="position" value="-x -0.4 -y 1.0 -z 0.04"/>     <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
   </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_cylinder.launch">
+    <arg name="prefix"   value="_1"/>                         <!-- the cylinder name is cylinder_$(prefix) -->
+    <arg name="position" value="-x 0.0 -y 1.0 -z 0.04"/>      <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_cylinder.launch">
+    <arg name="prefix"   value="_2"/>                         <!-- the cylinder name is cylinder_$(prefix) -->
+    <arg name="position" value="-x 0.4 -y  1.0 -z 0.04"/>     <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+
+  <!-- cups -->
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_cup.launch">
+    <arg name="prefix"   value="_0"/>                         <!-- the cup name is cup_$(prefix) -->
+    <arg name="position" value="-x -0.4 -y -1.0 -z 0.01"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_cup.launch">
+    <arg name="prefix"   value="_1"/>                         <!-- the cup name is cup_$(prefix) -->
+    <arg name="position" value="-x  0.4 -y -1.0 -z 0.01"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+
+  <!-- tennis balls -->
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_tennis_ball.launch">
+    <arg name="prefix"   value="_0"/>                         <!-- the tennis ball name is tennis_ball_$(prefix) -->
+    <arg name="position" value="-x  0.0 -y -1.0 -z 0.04"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_tennis_ball.launch">
+    <arg name="prefix"   value="_1"/>                         <!-- the tennis ball name is tennis_ball_$(prefix) -->
+    <arg name="position" value="-x  0.0 -y -0.8 -z 0.04"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+
+  <!-- pop corn balls -->
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_pop_corn_ball.launch">
+    <arg name="prefix"   value="_0"/>                         <!-- the pop corn ball name is pop_corn_ball_$(prefix) -->
+    <arg name="position" value="-x -0.95 -y -1.2 -z 0.30"/>   <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_pop_corn_ball.launch">
+    <arg name="prefix"   value="_1"/>                         <!-- the pop corn ball name is pop_corn_ball_$(prefix) -->
+    <arg name="position" value="-x -0.95 -y -1.2 -z 0.35"/>   <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_pop_corn_ball.launch">
+    <arg name="prefix"   value="_2"/>                         <!-- the pop corn ball name is pop_corn_ball_$(prefix) -->
+    <arg name="position" value="-x -0.95 -y -1.2 -z 0.40"/>   <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_pop_corn_ball.launch">
+    <arg name="prefix"   value="_3"/>                         <!-- the pop corn ball name is pop_corn_ball_$(prefix) -->
+    <arg name="position" value="-x -0.95 -y -1.2 -z 0.45"/>   <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+
 </launch>

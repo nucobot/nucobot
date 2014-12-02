@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
-<robot name="cylinder_$(arg prefix)" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <gazebo reference="cylinder_$(arg prefix)_base_link">
+<robot name="cup_$(arg prefix)" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <gazebo reference="cup_$(arg prefix)_base_link">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
     <material>Gazebo/White</material>
   </gazebo>
 
-  <link name="cylinder_$(arg prefix)_base_link">
+  <link name="cup_$(arg prefix)_base_link">
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/toys/cylinder.dae"/>
+        <mesh filename="package://nucobot_description/meshes/toys/cup.dae"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/toys/cylinder.dae"/>
+        <mesh filename="package://nucobot_description/meshes/toys/cup.dae"/>
       </geometry>
     </visual>
 

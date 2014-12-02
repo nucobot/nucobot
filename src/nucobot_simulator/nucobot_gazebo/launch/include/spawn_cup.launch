@@ -1,0 +1,9 @@
+<launch>
+  <arg name="prefix"/>
+  <arg name="position"/>
+
+  <param name="cup_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/toys/cup.xacro' prefix:=$(arg prefix)" />
+  <node name="urdf_cup_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+        args="-urdf $(arg position) -model cup_$(arg prefix) -param cup_description_$(arg prefix)"/>
+
+</launch>
