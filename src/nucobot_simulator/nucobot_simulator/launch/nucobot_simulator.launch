@@ -1,0 +1,13 @@
+<launch>
+  <!-- start Gazebo -->
+  <include file="$(find nucobot_gazebo)/launch/nucobot_world.launch">
+    <arg name="paused"        value="false"/>
+    <arg name="use_sim_time"  value="true"/>
+    <arg name="gui"           value="true"/>
+    <arg name="headless"      value="false"/>
+    <arg name="debug"         value="false"/>
+  </include>
+
+  <!-- start Rviz -->
+  <include file="$(find nucobot_description)/launch/nucobot_rviz.launch"/>
+</launch>            

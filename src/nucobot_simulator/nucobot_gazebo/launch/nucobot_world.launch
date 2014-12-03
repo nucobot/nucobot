@@ -1,5 +1,4 @@
 <launch>
-
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
@@ -10,7 +9,7 @@
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <!-- <arg name="world_name" value="$(find nucobot_gazebo)/worlds/nucobot.world"/> -->
+    <arg name="world_name" value="$(find nucobot_gazebo)/worlds/nucobot.world"/>
     <arg name="world_name" value="worlds/empty.world" />
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
@@ -43,13 +42,17 @@
       <param name="publish_frequency" value="50"/> <!-- Hz -->
     </node>
   </group>
-
-
   
+  <!-- Load the URDF into the ROS Parameter Server and spawn it in Gazebo-->
+  <!-- Spawn the Beacons -->
+  <include file="$(find nucobot_gazebo)/launch/spawn_beacons.launch"/>
+
+  <!-- Spawn the toys -->
+  <include file="$(find nucobot_gazebo)/launch/spawn_toys.launch"/>
+
+  <!-- Spawn the robot -->
+  <!-- include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/ -->
+
   <!-- ros_control nucobot launch file -->
   <!--include file="$(find nucobot_control)/launch/nucobot_control.launch" /-->
-
-   <!-- Spawn a robot into Gazebo -->
-<!-- <node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description/sdf/model.sdf -sdf -model nucobot" /> -->
-  
 </launch>

@@ -1,0 +1,6 @@
+<launch>
+  <include file="$(find nucobot_gazebo)/launch/include/spawn_cylinder.launch">
+    <arg name="prefix"   value="_0"/>                          <!-- the cylinder name is cylinder_$(prefix) -->
+    <arg name="position" value="-x 0.0 -y 0.0 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+  </include>
+</launch>

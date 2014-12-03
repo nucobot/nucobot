@@ -18,6 +18,11 @@ try:
 except:
     ROS_MASTER_URI=""
 
+try:
+    GAZEBO_MODEL_PATH=os.environ["GAZEBO_MODEL_PATH"]
+except:
+    GAZEBO_MODEL_PATH=""
+
 print "\nINSTALL SCRIPT FOR NUCOBOT PROJECT"
 print "author: Anton Mitrokhin, 2014"
 print "Warning! This script assumes you had installed ROS Hydro to the", ROS_INSTALL_DIR
@@ -135,6 +140,8 @@ def gen_launcher(bash_name, launcher_name, icon_name, command):
         format_str +='export ROS_HOSTNAME=' + str(ROS_HOSTNAME) + '\n'
     if len(str(ROS_MASTER_URI)) != 0:
         format_str +='export ROS_MASTER_URI=' + str(ROS_MASTER_URI) + '\n'
+    if len(str(GAZEBO_MODEL_PATH)) != 0:
+        format_str +='export GAZEBO_MODEL_PATH=' + str(GAZEBO_MODEL_PATH) + '\n'
     format_str += '\n' + command + '\n\n'\
     'sleep 0.2'
 
@@ -179,6 +186,6 @@ gen_launcher('ros_rebuild_eclipse',           'rosRebuild4Eclipse', 'rosRebuild4
                                                                                            'source ' + LOCAL_BASH_FILE + '\n'\
                                                                                            'echo "Press any key to continue..."\nread')
 
-gen_launcher('ros_simulation',                'rosSimulation',      'rosSimulator.png',    'roslaunch nucobot_description nucobot_rviz.launch')
+gen_launcher('ros_simulation',                'rosSimulation',      'rosSimulator.png',    'roslaunch nucobot_simulator nucobot_simulator.launch')
 
 
