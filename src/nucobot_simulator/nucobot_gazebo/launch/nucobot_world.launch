@@ -10,12 +10,7 @@
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find nucobot_gazebo)/worlds/nucobot.world"/>
-    <arg name="world_name" value="worlds/empty.world" />
-    <arg name="debug" value="$(arg debug)" />
-    <arg name="gui" value="$(arg gui)" />
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-    <arg name="headless" value="$(arg headless)"/>
+    <!-- <arg name="world_name" value="worlds/empty.world" /> -->
   </include>
 
   <!-- Load the URDF into the ROS Parameter Server -->
@@ -34,8 +29,7 @@
     <!-- load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(find nucobot_control)/config/joint_position_control.yaml" command="load" />
     <!-- load the controllers -->
-    <node name="nucobot_controller" pkg="controller_manager" type="spawner" output="screen" 
-      args="joint_state_controller" />
+    <node name="nucobot_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
  
     <!-- publish all the frames to TF -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
