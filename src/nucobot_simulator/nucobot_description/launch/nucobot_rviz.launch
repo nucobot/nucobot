@@ -1,19 +1,25 @@
-<launch> <!--
+<launch>
+  
+  <param name="robot_description" textfile="$(find nucobot_description)/urdf/nucobot.urdf" />
+
+  <param name="use_gui" value="TRUE"/>
+
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.xacro'" />
 
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/tower.xacro'" />
--->
 
-  <!-- send fake joint values 
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="TRUE"/>
-  </node> -->
+  </node>
 
-  <!-- Combine joint values 
+
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
--->
+
   <!-- Show in Rviz   -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find nucobot_description)/launch/nucobot.rviz"/>
 </launch>
