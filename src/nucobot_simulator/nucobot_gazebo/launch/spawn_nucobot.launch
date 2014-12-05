@@ -1,27 +1,27 @@
 <launch>
-  <arg name="base"      default="kobuki"/>
-  <arg name="stacks"    default="hexagons"/>
-  <arg name="3d_sensor" default="kinect"/>
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/$(arg base)_$(arg stacks)_$(arg 3d_sensor).urdf.xacro'" />
+  <!-- Load the URDF into the ROS Parameter Server -->
   
-  <!-- Gazebo model spawner -->
-  <node name="spawn_turtlebot_model" pkg="gazebo_ros" type="spawn_model"
-        args="$(optenv ROBOT_INITIAL_POSE) -unpause -urdf -param robot_description -model mobile_base"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.urdf.xacro'" />
+  <node name="nucobot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model nucobot -param robot_description -z 0.2"/>
+
+  <!-- robot visualization in Rviz -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find nucobot_description)/launch/nucobot.rviz"/>  -->
+
+  <!-- load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find nucobot_control)/config/joint_position_control.yaml" command="load" />
+  <!-- load the controllers -->
+  <node name="nucobot_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
+
+  <!-- publish all the frames to TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    <param name="publish_frequency" value="50"/> <!-- Hz -->
+  </node>
   
-  <!-- Velocity muxer -->
-  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
-  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux"
-        args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
-    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml" />
-    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
-  </node>
 
-  <!-- Bumper/cliff to pointcloud (not working, as it needs sensors/core messages) -->
-  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>  
+    <!-- source that publishes the joint positions as a sensor_msgs/JointState -->
+  <param name="use_gui" value="false"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
-
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="30.0" />
-  </node>
 </launch>

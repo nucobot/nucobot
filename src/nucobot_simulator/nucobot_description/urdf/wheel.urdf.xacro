@@ -57,22 +57,6 @@
       <joint_properties damping="0.0" friction="0.0"/>
     </joint>
  
-    <!-- Transmission is important to link the joints and the controller -->
-    <transmission name="${fb}_${lr}_wheel_joint_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="${fb}_${lr}_wheel_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
-      </joint>  
-      <actuator name="${fb}_${lr}_wheel_joint_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
 
-    <gazebo>
-      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-        <robotNamespace>/nucobot</robotNamespace>
-      </plugin>
-    </gazebo>
   </xacro:macro>
 </robot>
