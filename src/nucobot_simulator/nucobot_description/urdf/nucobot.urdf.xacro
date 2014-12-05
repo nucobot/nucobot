@@ -106,38 +106,108 @@
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
   </gazebo>
 
-   <!-- Camera -->
-  <joint name="camera_joint" type="fixed">
-    <axis xyz="0 1 0" />
+
+<!-- Kinect frames and mounting (includes simulation) -->
+  <joint name="base_camera_joint" type="fixed">
     <origin xyz="${base_x_size/2-camera_link/2} 0 ${base_z_size/2 + camera_link/2}" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="camera_link"/>
   </joint>
- 
-  <link name="camera_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-    <box size="${camera_link} ${camera_link} ${camera_link}"/>
-      </geometry>
-    </collision>
- 
+  
+  <joint name="base_kinect_joint" type="fixed">
+    <origin xyz="${base_x_size/2-camera_link/2} 0 ${base_z_size/2 + camera_link/2}" rpy="-1.57 0 -1.57"/>
+    <parent link="base_link"/>
+    <child link="kinect_link"/>
+  </joint>
+
+  <link name="kinect_link">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin rpy="0 0 0" xyz=" 0 0 0 "/>
       <geometry>
-    <box size="${camera_link} ${camera_link} ${camera_link}"/>
+        <box size="${camera_link} ${camera_link} ${camera_link}"/>
       </geometry>
       <material name="black"/>
     </visual>
- 
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.0730 .2760 0.0720"/>
+      </geometry>
+    </collision>
   </link>
 
+  <link name="camera_link">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz=" 0 0 0 "/>
+      <geometry>
+        <box size="${camera_link} ${camera_link} ${camera_link}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <box size="0.0730 .2760 0.0720"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- kinect sensor -->
   <gazebo reference="camera_link">
+    <sensor type="depth" name="depth_sensor">
+      <update_rate>20.0</update_rate>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.05</near>
+          <far>3</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.  
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.001</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+      <plugin name="kinect_frame_controller" filename="libgazebo_ros_openni_kinect.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>20.0</updateRate>
+        <cameraName>kinect</cameraName>
+        <imageTopicName>kinect/image_raw</imageTopicName>
+        <cameraInfoTopicName>kinect/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>depth/image_raw</depthImageTopicName>
+        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+        <pointCloudTopicName>depth/points</pointCloudTopicName>
+        <frameName>kinect_link</frameName>
+        <pointCloudCutoff>0.05</pointCloudCutoff>
+        <distortionK1>0.00000001</distortionK1>
+        <distortionK2>0.00000001</distortionK2>
+        <distortionK3>0.00000001</distortionK3>
+        <distortionT1>0.00000001</distortionT1>
+        <distortionT2>0.00000001</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+<gazebo reference="camera_link">
     <sensor type="camera" name="camera1">
       <update_rate>30.0</update_rate>
       <camera name="head">
@@ -176,4 +246,7 @@
       </plugin>
     </sensor>
   </gazebo>
+ 
+
+  
 </robot>
