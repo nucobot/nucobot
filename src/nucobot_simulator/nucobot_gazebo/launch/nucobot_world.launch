@@ -5,6 +5,8 @@
   <arg name="gui" default="true"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
+  <arg name="show_rviz" default="true"/>
+
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -24,8 +26,34 @@
   <include file="$(find nucobot_gazebo)/launch/spawn_toys.launch"/>
 
   <!-- Spawn the robot -->
-  <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/>
+  <!-- <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/> -->
+
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.urdf.xacro'" />
+  <node name="nucobot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model nucobot -param robot_description -z 0.2"/>
 
   <!-- ros_control nucobot launch file -->
   <!--include file="$(find nucobot_control)/launch/nucobot_control.launch" /-->
+
+  <!-- robot visualization in Rviz -->
+  <group if="$(arg show_rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find nucobot_description)/launch/nucobot.rviz"/> 
+ 
+    <!-- load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find nucobot_control)/config/joint_position_control.yaml" command="load" />
+    <!-- load the controllers -->
+    <node name="nucobot_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
+ 
+    <!-- publish all the frames to TF -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <param name="publish_frequency" value="50"/> <!-- Hz -->
+    </node>
+  </group>
+
+    <!-- source that publishes the joint positions as a sensor_msgs/JointState -->
+  <param name="use_gui" value="false"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
 </launch>
