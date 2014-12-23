@@ -2,42 +2,42 @@
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="g_2"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Green"/>                       <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x 1.07 -y -1.57 -z  0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y -0.062 -x -0.062 -z  0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R  0.0 -P   0.0 -Y 2.16"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="y_1"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Yellow"/>                      <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x 0.0 -y -1.57 -z   0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y 1.000 -x -0.062 -z   0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R 0.0 -P   0.0 -Y  1.57"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="g_3"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Green"/>                       <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x -1.07 -y -1.57 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y 2.062 -x -0.062 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R   0.0 -P  0.0 -Y 0.98"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="y_2"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Yellow"/>                      <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x -1.07 -y  1.57 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y -0.062 -x 3.062 -z 0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R   0.0 -P 0.0 -Y -0.98"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="g_1"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Green"/>                       <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x  0.0 -y 1.57 -z   0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y  1.000 -x 3.062 -z   0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R  0.0 -P 0.0  -Y -1.57"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 
   <include file="$(find nucobot_gazebo)/launch/include/spawn_beacon.launch">
     <arg name="prefix"   value="y_3"/>                         <!-- name prefix for topics -->
     <arg name="color"    value="Yellow"/>                      <!-- Green, Yellow, Red, Brown, Blue and so on-->
-    <arg name="position" value="-x 1.07 -y  1.57 -z  0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
+    <arg name="position" value="-y 2.062 -x  3.062 -z  0.4"/>    <!-- position in meters -x 0.0 -y 0.0 -z 0.0 -->
     <arg name="rotation" value="-R 0.0  -P  0.0 -Y -2.16"/>    <!-- rotation in radians -R 3.14 -P 0.0 -Y -3.14 -->
   </include>
 </launch>
