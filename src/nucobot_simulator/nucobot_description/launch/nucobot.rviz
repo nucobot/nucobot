@@ -191,8 +191,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.531992
-        Min Value: 5.63264e-06
+        Max Value: 6.91414e-06
+        Min Value: 1.2517e-06
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -239,6 +239,14 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /visualization/fake_towermap/objects
+      Name: MarkerArray
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -263,22 +271,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.88862
+      Distance: 6.16346
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.92362
-        Y: 1.21734
-        Z: 1.31222
+        X: -1.06491
+        Y: 3.67171
+        Z: 1.12173
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.835399
+      Pitch: 0.540399
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.34539
+      Yaw: 2.00039
     Saved:
       - Class: rviz/Orbit
         Distance: 11.6221

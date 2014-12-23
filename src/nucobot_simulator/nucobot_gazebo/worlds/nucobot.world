@@ -2,8 +2,8 @@
 <sdf version="1.4">
   <world name="Eurobot map">
     <scene>
-      <ambient>0.5 0.5 0.5 1</ambient>
-      <background>0.5 0.5 0.5 1</background>
+      <ambient>0.5 0.5 0.5 0</ambient>
+      <background>0.5 0.5 0.5 0</background>
       <shadows>false</shadows>
     </scene>
     <physics type="ode">
@@ -31,7 +31,7 @@
       <uri>model://sun</uri>
     </include>
     <model name="eurobot_map">
-      <pose>0 0 0.0001 0 0 1.57</pose>
+      <pose>0 0 0.01 0 0 0</pose>
       <static>true</static>
       <link name="map">
         <visual name="visual">
@@ -40,6 +40,7 @@
               <uri>file://eurobot_arena.dae</uri>
             </mesh>
           </geometry>
+          <pose>0 0 0 0 0 1.57</pose>
         </visual>
         <collision name="collision">
           <geometry>
@@ -47,6 +48,7 @@
               <uri>file://eurobot_arena.dae</uri>
             </mesh>
           </geometry>
+          <pose>0 0 0 0 0 1.57</pose>
         </collision>
       </link>
     </model>
