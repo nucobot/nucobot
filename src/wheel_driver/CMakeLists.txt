@@ -12,11 +12,17 @@ find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport geometry_msgs
                                         roscpp
             )
 
-catkin_package()
+add_message_files(
+  FILES
+  WheelState.msg
+)
 
+generate_messages(   
+  DEPENDENCIES std_msgs sensor_msgs geometry_msgs
+) 
+
+catkin_package(CATKIN_DEPENDS message_runtime sensor_msgs std_msgs geometry_msgs)
 include_directories(${catkin_INCLUDE_DIRS})
 
 add_executable(wheel_driver wheel_driver.cpp)
 target_link_libraries(wheel_driver ${catkin_LIBRARIES})
-
-

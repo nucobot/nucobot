@@ -1,10 +1,11 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <wheel_driver/WheelState.h>
 
 
-void chatterCallback(const std_msgs::String::ConstPtr& msg)
+void chatterCallback(const wheel_driver::WheelState& msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  ROS_INFO("I heard: [%g]", msg.wheel_0.x);
 }
 
 int main(int argc, char **argv)
@@ -13,8 +14,8 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "wheel_driver");
   ros::NodeHandle nh;
 
-  ros::Publisher chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
-  ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
+  ros::Publisher chatter_pub = nh.advertise<wheel_driver::WheelState>("wheel_state", 1000);
+  ros::Subscriber sub = nh.subscribe("wheel_state", 1000, chatterCallback);
 
   ros::Rate loop_rate(10);
 
@@ -22,19 +23,18 @@ int main(int argc, char **argv)
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
+  int i = 0;
   int count = 0;
   while (ros::ok())
   {
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
-    std_msgs::String msg;
+    wheel_driver::WheelState msg;
 
-    std::stringstream ss;
-    ss << "hello world " << count;
-    msg.data = ss.str();
+    msg.wheel_0.x = i++;
 
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO("%g", msg.wheel_0.x);
 
     /**
      * The publish() function is how you send messages. The parameter
