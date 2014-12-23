@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport geometry_msgs
 add_message_files(
   FILES
   WheelState.msg
+  WheelBaseState.msg
 )
 
 generate_messages(   

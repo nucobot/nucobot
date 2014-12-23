@@ -1,11 +1,11 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
-#include <wheel_driver/WheelState.h>
+#include <wheel_driver/WheelBaseState.h>
 
 
-void chatterCallback(const wheel_driver::WheelState& msg)
+void chatterCallback(const wheel_driver::WheelBaseState& msg)
 {
-  ROS_INFO("I heard: [%g]", msg.wheel_0.x);
+  ROS_INFO("I heard: [%g]", msg.wheel_0.vel);
 }
 
 int main(int argc, char **argv)
@@ -14,7 +14,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "wheel_driver");
   ros::NodeHandle nh;
 
-  ros::Publisher chatter_pub = nh.advertise<wheel_driver::WheelState>("wheel_state", 1000);
+  ros::Publisher chatter_pub = nh.advertise<wheel_driver::WheelBaseState>("wheel_state", 1000);
   ros::Subscriber sub = nh.subscribe("wheel_state", 1000, chatterCallback);
 
   ros::Rate loop_rate(10);
@@ -30,11 +30,11 @@ int main(int argc, char **argv)
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
-    wheel_driver::WheelState msg;
+    wheel_driver::WheelBaseState msg;
 
-    msg.wheel_0.x = i++;
+    msg.wheel_0.vel = i++;
 
-    ROS_INFO("%g", msg.wheel_0.x);
+    ROS_INFO("%g", msg.wheel_0.vel);
 
     /**
      * The publish() function is how you send messages. The parameter
