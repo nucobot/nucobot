@@ -24,6 +24,6 @@
   <include file="$(find nucobot_gazebo)/launch/spawn_toys.launch"/>
 
   <!-- Spawn the robot -->
-  <!--include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/-->
+  <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/>
 
 </launch>

@@ -4,7 +4,8 @@
   <!-- Load the URDF into the ROS Parameter Server -->
   
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/nucobot.urdf.xacro'" />
-  <node name="nucobot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model nucobot -param robot_description -z 0.2"/>
+  <node name="nucobot_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+        args="-urdf -model nucobot -param robot_description -x 1.000 -y 0.250 -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
 
   <!-- robot visualization in Rviz -->
   <!-- <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find nucobot_description)/launch/nucobot.rviz"/>  -->
