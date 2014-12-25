@@ -1,6 +1,10 @@
 <launch>
   <!-- start Rviz -->
   <include file="$(find nucobot_description)/launch/nucobot_rviz.launch"/>
+  
+  <!-- start processing nodes-->
+  <!-- fake map for navigation-->
+  <node pkg="fake_towermap" name="fake_towermap" type="fake_towermap.py" output="screen" required="true"/>
 
   <!-- start Gazebo -->
   <include file="$(find nucobot_gazebo)/launch/nucobot_world.launch">

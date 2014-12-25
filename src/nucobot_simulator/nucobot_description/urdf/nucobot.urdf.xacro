@@ -97,7 +97,7 @@
       <wheelSeparation>${base_y_size}</wheelSeparation>
       <wheelDiameter>${2*wheel_radius}</wheelDiameter>
       <torque>35</torque>
-      <broadcastTF>1</broadcastTF>
+      <broadcastTF>0</broadcastTF>
       <odometryFrame>map</odometryFrame>
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
