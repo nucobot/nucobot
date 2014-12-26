@@ -40,7 +40,7 @@
               <uri>file://eurobot_arena.dae</uri>
             </mesh>
           </geometry>
-          <pose>0 0 0 0 0 1.57</pose>
+          <pose>0 0 0 0 0 0</pose>
         </visual>
         <collision name="collision">
           <geometry>
@@ -48,7 +48,7 @@
               <uri>file://eurobot_arena.dae</uri>
             </mesh>
           </geometry>
-          <pose>0 0 0 0 0 1.57</pose>
+          <pose>0 0 0 0 0 0</pose>
         </collision>
       </link>
     </model>
