@@ -1,19 +1,40 @@
 #!/usr/bin/env python
 
-import re
+import re, math
 import rospy, tf
 from std_msgs.msg import String
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
 from gazebo_msgs.msg import ModelStates
-
+from sensor_msgs.msg import PointCloud
+from geometry_msgs.msg import Point32
 
 pub = rospy.Publisher('visualization/fake_towermap/objects', MarkerArray, queue_size=10)
-br = tf.TransformBroadcaster()
+pub_pcl = rospy.Publisher('fake_towermap/pointcloud', PointCloud, queue_size=10)
+# br = tf.TransformBroadcaster()
+
+
+def gen_flatcircle(r, x, y):
+    ret = []
+    rstep = 0.03
+    phistep = 0.5
+    ret.append(Point32(x, y, 0))
+    r_ = 0
+    while (r_ < r):
+        r_ += rstep
+        phi = 0
+        while (phi < 6.28):
+            ret.append(Point32(x + r_*math.sin(phi), y + r_*math.cos(phi), 0))
+            phi += phistep
+    return ret
 
 
 def callback(data):
     ma = MarkerArray()
+    pcl = PointCloud()
+    pcl.header.frame_id = "world"
+    pcl.header.stamp = rospy.Time()
+
     for i, name in enumerate(data.name):
         marker = Marker()
         marker.header.frame_id = "world"
@@ -91,16 +112,20 @@ def callback(data):
             marker.color.b = 1.0
             ma.markers.append(marker)
             ma.markers.append(text_marker)
-            
-        #if 'nucobot' in name:
-        #    br.sendTransform((data.pose[i].position.x, data.pose[i].position.y, data.pose[i].position.z),
-        #             (data.pose[i].orientation.x, data.pose[i].orientation.y, data.pose[i].orientation.z, data.pose[i].orientation.w),
-        #             rospy.Time.now(),
-        #             "base_footprint",
-        #             "world")
-
         
+        pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
+        
+        # if 'nucobot' in name:
+        #     br.sendTransform((data.pose[i].position.x, data.pose[i].position.y, data.pose[i].position.z),
+        #              (data.pose[i].orientation.x, data.pose[i].orientation.y, data.pose[i].orientation.z, data.pose[i].orientation.w),
+        #              rospy.Time.now(),
+        #              "base_footprint",
+        #              "world")
 
+
+
+
+    pub_pcl.publish(pcl)
     pub.publish(ma)
 
 

@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy tf
   gazebo_msgs
   visualization_msgs
+  geometry_msgs
+  sensor_msgs
   std_msgs
 )
 
