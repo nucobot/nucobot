@@ -4,7 +4,7 @@
   
   <!-- start processing nodes-->
   <!-- fake map for navigation-->
-  <node pkg="fake_towermap" name="fake_towermap" type="fake_towermap.py" output="screen" required="true"/>
+  <node pkg="fake_towermap" name="fake_towermap" type="fake_towermap" output="screen" required="true"/>
 
   <!-- start Gazebo -->
   <include file="$(find nucobot_gazebo)/launch/nucobot_world.launch">

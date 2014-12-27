@@ -21,13 +21,12 @@ ros::Subscriber sub_gazbo;
 ros::Publisher  pub_markr;
 ros::Publisher  pub_cloud;
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr pcl (new pcl::PointCloud<pcl::PointXYZ>);
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
 void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
-    pcl->header.frame_id = "world";
-    pcl->header.stamp = ros::Time();
+	cloud->header.frame_id = "world";
     //pcl->points = static_map_borders // this is obviously a cludge, the static map should be generated elsewhere
 
     for (int i = 0; i < data->name.size(); ++i) {
@@ -36,7 +35,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         marker.id = 0;
         marker.ns = data->name[i];
         marker.header.stamp = ros::Time();
-        marker.lifetime = ros::Time(0.3);
+        marker.lifetime = ros::Duration(0.3);
         marker.action = visualization_msgs::Marker::ADD;
         marker.pose = data->pose[i];
 
@@ -45,7 +44,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         text_marker.ns = data->name[i];
         text_marker.header.stamp = ros::Time();
         text_marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
-        text_marker.lifetime = ros::Time(0.3);
+        text_marker.lifetime = ros::Duration(0.3);
         text_marker.action = visualization_msgs::Marker::ADD;
         text_marker.pose = data->pose[i];
         text_marker.text = data->name[i];
@@ -110,6 +109,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             ma.markers.push_back(text_marker);
             //pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
         }
+    }
 
     //pub_cloud.publish(pcl);
 	pub_markr.publish(ma);
