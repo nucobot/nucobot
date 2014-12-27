@@ -14,19 +14,62 @@ pub_pcl = rospy.Publisher('fake_towermap/pointcloud', PointCloud, queue_size=10)
 # br = tf.TransformBroadcaster()
 
 
-def gen_flatcircle(r, x, y):
+
+
+def gen_flatline(x1, y1, x2, y2):
     ret = []
-    rstep = 0.03
-    phistep = 0.5
-    ret.append(Point32(x, y, 0))
-    r_ = 0
-    while (r_ < r):
-        r_ += rstep
-        phi = 0
-        while (phi < 6.28):
-            ret.append(Point32(x + r_*math.sin(phi), y + r_*math.cos(phi), 0))
-            phi += phistep
+    step = 0.04
+    ln = math.sqrt((x2-x1)**2+(y2-y1)**2)
+    dlx = step*(x2 - x1)/ln
+    dly = step*(y2 - y1)/ln
+
+    for i in xrange(int(ln/step)):
+        ret.append(Point32(x1 + i*dlx, y1 + i*dly, 0))
     return ret
+
+def gen_flatrect(x1, y1, x2, y2, step = 0.02):
+    ret = []
+
+    for i in xrange(int((x2 - x1)/step)):
+        for j in xrange(int((y2 - y1)/step)):
+            ret.append(Point32(x1 + i*step, y1 + j*step, 0))
+    return ret
+
+def gen_flatcircle(r, x, y, step = 0.5):
+    ret = []
+    phi = 0
+    while (phi < 6.3):
+        ret.append(Point32(x + r*math.sin(phi), y + r*math.cos(phi), 0))
+        phi += step
+
+    return ret
+
+def genstaticmap():
+    ret = []
+    ret += gen_flatline(0, 0, 2, 0)
+    ret += gen_flatline(2, 0, 2, 3)
+    ret += gen_flatline(2, 3, 0, 3)
+    ret += gen_flatline(0, 3, 0, 0)
+
+    ret += gen_flatline(0.8, 0.0, 0.8, 0.4)
+    ret += gen_flatline(0.8, 3.0, 0.8, 2.6)
+    ret += gen_flatline(1.2, 0.0, 1.2, 0.4)
+    ret += gen_flatline(1.2, 3.0, 1.2, 2.6)
+
+    ret += gen_flatline(0, 0.97, 0.58, 0.97)
+    ret += gen_flatline(0, 1.50, 0.58, 1.50)
+    ret += gen_flatline(0, 2.03, 0.58, 2.03)
+
+    ret += gen_flatrect(0, (300.0-31.0)/1000.0, 0.062, (300.0+31.0)/1000.0)
+    ret += gen_flatrect(0, (600.0-31.0)/1000.0, 0.062, (600.0+31.0)/1000.0)
+    ret += gen_flatrect(0, (2400.0-31.0)/1000.0, 0.062, (2400.0+31.0)/1000.0)
+    ret += gen_flatrect(0, (2700.0-31.0)/1000.0, 0.062, (2700.0+31.0)/1000.0)
+    return ret
+
+
+static_map_borders = genstaticmap()
+
+
 
 
 def callback(data):
@@ -34,6 +77,7 @@ def callback(data):
     pcl = PointCloud()
     pcl.header.frame_id = "world"
     pcl.header.stamp = rospy.Time()
+    pcl.points = static_map_borders # this is obviously a cludge, the static map should be generated elsewhere
 
     for i, name in enumerate(data.name):
         marker = Marker()
@@ -75,6 +119,7 @@ def callback(data):
             marker.color.b = 0.0
             ma.markers.append(marker)
             ma.markers.append(text_marker)
+            pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
        
         if 'tennis' in name:
             marker.type = Marker.SPHERE
@@ -87,6 +132,7 @@ def callback(data):
             marker.color.b = 1.0
             ma.markers.append(marker)
             ma.markers.append(text_marker)
+            pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
 
         if 'pop_corn' in name:
             marker.type = Marker.SPHERE
@@ -99,6 +145,7 @@ def callback(data):
             marker.color.b = 1.0
             ma.markers.append(marker)
             ma.markers.append(text_marker)
+            pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
 
         if 'cup' in name:
             marker.type = Marker.CYLINDER
@@ -112,8 +159,7 @@ def callback(data):
             marker.color.b = 1.0
             ma.markers.append(marker)
             ma.markers.append(text_marker)
-        
-        pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
+            pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
         
         # if 'nucobot' in name:
         #     br.sendTransform((data.pose[i].position.x, data.pose[i].position.y, data.pose[i].position.z),
