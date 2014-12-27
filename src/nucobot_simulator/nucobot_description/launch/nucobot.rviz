@@ -205,8 +205,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.307149
-        Min Value: 7.51019e-06
+        Max Value: 0.30715
+        Min Value: -5.99027e-06
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -275,6 +275,35 @@ Visualization Manager:
         tennis_ball__1: true
       Queue Size: 100
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: Beacon generated pointcloud
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /fake_towermap/pointcloud
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -299,22 +328,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.709469
+      Distance: 0.153445
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.17669
-        Y: 0.446697
-        Z: 0.714079
+        X: 1.64059
+        Y: 0.159211
+        Z: 0.731129
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.9748
+      Pitch: 1.4048
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.10857
+      Yaw: 4.73357
     Saved:
       - Class: rviz/Orbit
         Distance: 11.6221

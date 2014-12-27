@@ -23,11 +23,62 @@ ros::Publisher  pub_cloud;
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
+
+void gen_flatline(double x1, double y1, double x2, double y2) {
+    double step = 0.04;
+    double ln = std::sqrt(std::pow(x2-x1, 2) + std::pow(y2-y1, 2));
+    double dlx = step*(x2 - x1)/ln;
+	double dly = step*(y2 - y1)/ln;
+    for (int i = 0; i < ln/step; ++i) {
+    	cloud->push_back(pcl::PointXYZ(x1 + i*dlx, y1 + i*dly, 0));//->points.push_back(pcl::PointXYZ(x1 + i*dlx, y1 + i*dly, 0));
+    }
+};
+
+void gen_flatrect(double x1, double y1, double x2, double y2) {
+    double step = 0.02;
+    for (int i = 0; i < (x2 - x1)/step; ++i)
+        for (int j = 0; j < (y2 - y1)/step; ++j)
+        	cloud->push_back(pcl::PointXYZ(x1 + i*step, y1 + j*step, 0));
+};
+
+void gen_flatcircle(double r, double x, double y) {
+    double step = 2 * M_PI / 12; // 12 points
+	double phi = 0;
+    while (phi < 6.3) {
+    	cloud->push_back(pcl::PointXYZ(x + r*std::sin(phi), y + r*std::cos(phi), 0));
+        phi += step;
+    }
+};
+
+void genstaticmap() {
+    gen_flatline(0, 0, 2, 0);
+    gen_flatline(2, 0, 2, 3);
+    gen_flatline(2, 3, 0, 3);
+    gen_flatline(0, 3, 0, 0);
+
+    gen_flatline(0.8, 0.0, 0.8, 0.4);
+    gen_flatline(0.8, 3.0, 0.8, 2.6);
+    gen_flatline(1.2, 0.0, 1.2, 0.4);
+    gen_flatline(1.2, 3.0, 1.2, 2.6);
+
+    gen_flatline(0, 0.97, 0.58, 0.97);
+    gen_flatline(0, 1.50, 0.58, 1.50);
+    gen_flatline(0, 2.03, 0.58, 2.03);
+
+    gen_flatrect(0, (300.0-31.0)/1000.0, 0.062, (300.0+31.0)/1000.0);
+    gen_flatrect(0, (600.0-31.0)/1000.0, 0.062, (600.0+31.0)/1000.0);
+    gen_flatrect(0, (2400.0-31.0)/1000.0, 0.062, (2400.0+31.0)/1000.0);
+    gen_flatrect(0, (2700.0-31.0)/1000.0, 0.062, (2700.0+31.0)/1000.0);
+};
+
+
+
+
 void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
 	cloud->header.frame_id = "world";
-    //pcl->points = static_map_borders // this is obviously a cludge, the static map should be generated elsewhere
+	genstaticmap(); // this is obviously a cludge, the static map should be generated elsewhere
 
     for (int i = 0; i < data->name.size(); ++i) {
 	    visualization_msgs::Marker marker, text_marker;
@@ -67,6 +118,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 0.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
+            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("tennis") != std::string::npos) {
@@ -80,6 +132,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
+            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("pop_corn") != std::string::npos) {
@@ -93,6 +146,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
+            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("cup") != std::string::npos) {
@@ -107,12 +161,13 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
-            //pcl.points += gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y)
+            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
     }
 
-    //pub_cloud.publish(pcl);
+    pub_cloud.publish(cloud);
 	pub_markr.publish(ma);
+	cloud->clear();
 };
 
 
