@@ -205,8 +205,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0.30715
-        Min Value: -5.99027e-06
+        Max Value: 0.307189
+        Min Value: -7.24196e-06
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -304,6 +304,61 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: true
+      Enabled: true
+      Name: Map
+      Topic: /map
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 0.7
+          Class: rviz/Map
+          Color Scheme: costmap
+          Draw Behind: true
+          Enabled: true
+          Name: Costmap
+          Topic: /move_base/global_costmap/costmap
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Name: Planner
+          Topic: /move_base/TrajectoryPlannerROS/global_plan
+          Value: true
+        - Alpha: 1
+          Class: rviz/Polygon
+          Color: 255; 0; 0
+          Enabled: true
+          Name: Robot Footprint
+          Topic: /move_base/global_costmap/obstacle_layer_footprint/footprint_stamped
+          Value: true
+      Enabled: true
+      Name: Global Map
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 0.7
+          Class: rviz/Map
+          Color Scheme: costmap
+          Draw Behind: true
+          Enabled: true
+          Name: Costmap
+          Topic: /move_base/local_costmap/costmap
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: true
+          Name: Planner
+          Topic: /move_base/TrajectoryPlannerROS/local_plan
+          Value: true
+      Enabled: true
+      Name: Local Map
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -328,22 +383,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.153445
+      Distance: 4.48396
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.64059
-        Y: 0.159211
-        Z: 0.731129
+        X: 1.42155
+        Y: 1.38152
+        Z: 0.891243
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.4048
+      Pitch: 1.5698
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.73357
+      Yaw: 4.69855
     Saved:
       - Class: rviz/Orbit
         Distance: 11.6221
