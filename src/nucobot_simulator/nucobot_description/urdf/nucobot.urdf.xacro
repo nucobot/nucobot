@@ -96,7 +96,7 @@
       <rightRearJoint>back_right_wheel_joint</rightRearJoint>
       <wheelSeparation>${base_y_size}</wheelSeparation>
       <wheelDiameter>${2*wheel_radius}</wheelDiameter>
-      <torque>35</torque>
+      <torque>100</torque>
       <broadcastTF>1</broadcastTF>
       <odometryFrame>world</odometryFrame>
       <commandTopic>cmd_vel</commandTopic>
