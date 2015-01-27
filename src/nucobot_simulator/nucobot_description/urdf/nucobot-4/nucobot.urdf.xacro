@@ -3,7 +3,7 @@
  
   <!-- Included URDF/XACRO Files -->
   <xacro:include filename="$(find nucobot_description)/urdf/materials.xacro" />
-  <xacro:include filename="$(find nucobot_description)/urdf/wheel.urdf.xacro" />
+  <xacro:include filename="$(find nucobot_description)/urdf/nucobot-4/wheel.urdf.xacro" />
  
   <!-- PROPERTY LIST -->
   <!--All units in m-kg-s-radians unit system -->
