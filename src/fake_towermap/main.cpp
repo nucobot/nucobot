@@ -77,12 +77,12 @@ void genstaticmap() {
 void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
-	cloud->header.frame_id = "world";
+	cloud->header.frame_id = "map";
 	genstaticmap(); // this is obviously a cludge, the static map should be generated elsewhere
 
     for (int i = 0; i < data->name.size(); ++i) {
 	    visualization_msgs::Marker marker, text_marker;
-        marker.header.frame_id = "world";
+        marker.header.frame_id = "map";
         marker.id = 0;
         marker.ns = data->name[i];
         marker.header.stamp = ros::Time();
@@ -90,7 +90,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         marker.action = visualization_msgs::Marker::ADD;
         marker.pose = data->pose[i];
 
-        text_marker.header.frame_id = "world";
+        text_marker.header.frame_id = "map";
         text_marker.id = 1;
         text_marker.ns = data->name[i];
         text_marker.header.stamp = ros::Time();

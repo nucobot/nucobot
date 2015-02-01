@@ -5,11 +5,26 @@
   <!-- start processing nodes-->
   <!-- fake map for navigation -->
   <node pkg="fake_towermap" name="fake_towermap" type="fake_towermap" output="screen" required="true"/>
+
   <!-- navigation stack -->
-  <include file="$(find nucobot_2dnav)/launch/move_base.launch">
-    <arg name="odom_topic"    value="odom"/>
-    <arg name="vel_topic"     value="cmd_vel"/>
+  <!-- path planner -->
+  <include file="$(find nucobot_2dnav)/launch/includes/move_base.launch.xml">
+    <arg name="odom_topic"     value="odom"/>
+    <arg name="vel_topic"      value="cmd_vel"/>
+    <arg name="base"           value="nucobot-2"/>
   </include>
+
+  <!-- map server (static map) -->
+  <arg name="map_file" default="$(find nucobot_2dnav)/maps/eurobot_arena.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="/map"/>
+  </node>
+  
+  <!-- localization -->
+  <node pkg="tf" type="static_transform_publisher" name="fake_localization" args="0 0 0 0 0 0 1 map odom 100" />
+
+  <!-- odometry -->
+  <!-- (provided by gazebo) -->
 
   <!-- start Gazebo -->
   <include file="$(find nucobot_gazebo)/launch/nucobot_world.launch">

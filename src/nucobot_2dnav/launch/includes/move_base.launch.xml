@@ -1,0 +1,17 @@
+<launch>
+  <arg name="odom_topic" default="odom" />
+  <arg name="vel_topic" default="cmd_vel"/>
+  <arg name="base"/>
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/move_base_params.yaml" command="load" />
+
+    <remap from="cmd_vel" to="$(arg vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+  </node>
+</launch>
