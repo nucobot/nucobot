@@ -1,0 +1,10 @@
+<launch>
+  <!--arg name="x" default="1.000"/-->
+
+  <node name="mice" pkg="odometry_driver" type="mice.py" output="screen" respawn="false">
+    <!--param name="publish_frequency" value="50"/-->
+  </node>
+  <node name="mice_hi" pkg="odometry_driver" type="odometry_hw2ros_driver" output="screen" respawn="false">
+    <!--param name="publish_frequency" value="50"/-->
+  </node>
+</launch>
