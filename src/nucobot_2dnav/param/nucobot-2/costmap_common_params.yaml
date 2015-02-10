@@ -1,6 +1,7 @@
 obstacle_range: 4.0
 raytrace_range: 4.0
-footprint: [[-0.20, -0.15], [-0.20, 0.15], [0.20, 0.15], [0.20, -0.15]]
+#footprint: [[-0.20, -0.15], [-0.20, 0.15], [0.20, 0.15], [0.20, -0.15]]
+robot_radius: 0.178
 inflation_radius: 0.30
 
 # voxel map configuration; z-voxels 0 are filled by bumpers and 1 by laser scan (kinect)

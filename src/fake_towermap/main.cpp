@@ -78,7 +78,7 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
 	cloud->header.frame_id = "map";
-	genstaticmap(); // this is obviously a cludge, the static map should be generated elsewhere
+	//genstaticmap(); // this is obviously a cludge, the static map should be generated elsewhere
 
     for (int i = 0; i < data->name.size(); ++i) {
 	    visualization_msgs::Marker marker, text_marker;
