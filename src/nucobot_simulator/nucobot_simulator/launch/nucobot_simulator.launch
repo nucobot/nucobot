@@ -23,6 +23,10 @@
   <!-- localization -->
   <node pkg="tf" type="static_transform_publisher" name="fake_localization" args="0 0 0 0 0 0 1 map odom 100" />
 
+  <!-- action -->
+  <node pkg="nucobot_action" name="nucobot_action_server" type="nucobot_action_server" output="screen"/>
+  <node pkg="nucobot_action" name="nucobot_action_client" type="action_client.py" output="screen" />
+
   <!-- odometry -->
   <!-- (provided by gazebo) -->
 
