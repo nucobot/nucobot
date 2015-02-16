@@ -68,14 +68,14 @@ public:
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "nucobot_odometry_driver");
+    ros::init(argc, argv, "nucobot_optical_odometry_driver");
     ros::NodeHandle node;
 
-    if (!node.getParam("odometry_driver/odom_frame", odom_frame)) odom_frame = "/odom";
-    if (!node.getParam("odometry_driver/base_link_frame", base_link_frame)) base_link_frame = "/base_footprint";
-    if (!node.getParam("odometry_driver/publish_rate", publish_rate)) publish_rate = 50;
-    if (!node.getParam("odometry_driver/pixel_to_meter", pixel_to_meter)) pixel_to_meter = 1000; // 1 meter = pixel_to_meter pixels
-    if (!node.getParam("odometry_driver/separation", separation)) separation = 0.10; // separation of sensors in meters
+    if (!node.getParam("optical_odometry_driver/odom_frame", odom_frame)) odom_frame = "/odom";
+    if (!node.getParam("optical_odometry_driver/base_link_frame", base_link_frame)) base_link_frame = "/base_footprint";
+    if (!node.getParam("optical_odometry_driver/publish_rate", publish_rate)) publish_rate = 50;
+    if (!node.getParam("optical_odometry_driver/pixel_to_meter", pixel_to_meter)) pixel_to_meter = 1000; // 1 meter = pixel_to_meter pixels
+    if (!node.getParam("optical_odometry_driver/separation", separation)) separation = 0.10; // separation of sensors in meters
 
     TfHandle tf_handle(node);
 

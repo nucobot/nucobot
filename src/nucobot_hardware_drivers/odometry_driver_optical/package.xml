@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>odometry_driver</name>
+  <name>odometry_driver_optical</name>
   <version>0.1.0</version>
-  <description>This driver reads the motion data from 2 optical mice and converts it to odom topic</description>
+  <description>This driver reads the motion data from 2 optical mice and converts it to odom->base_footprint tf</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->

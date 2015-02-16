@@ -1,8 +1,11 @@
 <launch>
   <!-- Nucobot Driver -->
+  <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" args="_port:=/dev/ttyACM0" output="screen"/>
 
+  <!-- The odometry estimator -->
+  <node pkg="odometry_driver_wheel" type="odometry_wheel_driver" name="odometry_wheel_driver_node" output="screen"/>
 
-  <!-- The odometry estimator 
+  <!--
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="imu/data"/>
     <param name="freq" value="10.0"/>
@@ -14,6 +17,8 @@
     <param name="output_frame" value="odom"/>
   </node>
   -->
-  <node pkg="tf" type="static_transform_publisher" name="odom_to_base_footprint_static" args="0 0 0 0 0 0 1 odom base_footprint 100" />
+  <!--node pkg="tf" type="static_transform_publisher" name="odom_to_base_footprint_static" args="0 0 0 0 0 0 1 odom base_footprint 100" /-->
+
+
 
 </launch>

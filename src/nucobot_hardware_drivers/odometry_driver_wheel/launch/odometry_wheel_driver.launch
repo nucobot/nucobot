@@ -1,0 +1,5 @@
+<launch>
+  <node name="wheel_odometry_node" pkg="odometry_driver_wheel" type="odometry_wheel_driver" output="screen" respawn="false">
+    <!--param name="publish_frequency" value="50"/-->
+  </node>
+</launch>
