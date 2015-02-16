@@ -45,7 +45,7 @@ include_directories(${catkin_INCLUDE_DIRS}
             		${BOOST_INCLUDE_DIRS})
 
 
-set(SERVER_SOURCES action_server.cpp)
+set(SERVER_SOURCES main.cpp action_server.h action_server.cpp)
 add_executable(nucobot_action_server ${SERVER_SOURCES})
 
 target_link_libraries(nucobot_action_server ${catkin_LIBRARIES})

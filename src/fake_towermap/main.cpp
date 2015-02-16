@@ -7,6 +7,7 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Point32.h>
+#include <std_msgs/String.h>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl_ros/point_cloud.h>
@@ -18,13 +19,17 @@
 
 
 ros::Subscriber sub_gazbo;
+ros::Subscriber sub_target_obj;
 ros::Publisher  pub_markr;
 ros::Publisher  pub_cloud;
+ros::Publisher  pub_obj;
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
+std_msgs::String target_obj;
 
-void gen_flatline(double x1, double y1, double x2, double y2) {
+void gen_flatline(double x1, double y1, double x2, double y2)
+{
     double step = 0.04;
     double ln = std::sqrt(std::pow(x2-x1, 2) + std::pow(y2-y1, 2));
     double dlx = step*(x2 - x1)/ln;
@@ -34,14 +39,16 @@ void gen_flatline(double x1, double y1, double x2, double y2) {
     }
 };
 
-void gen_flatrect(double x1, double y1, double x2, double y2) {
+void gen_flatrect(double x1, double y1, double x2, double y2)
+{
     double step = 0.02;
     for (int i = 0; i < (x2 - x1)/step; ++i)
         for (int j = 0; j < (y2 - y1)/step; ++j)
         	cloud->push_back(pcl::PointXYZ(x1 + i*step, y1 + j*step, 0));
 };
 
-void gen_flatcircle(double r, double x, double y) {
+void gen_flatcircle(double r, double x, double y)
+{
     double step = 2 * M_PI / 12; // 12 points
 	double phi = 0;
     while (phi < 6.3) {
@@ -51,10 +58,17 @@ void gen_flatcircle(double r, double x, double y) {
 };
 
 
-void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
+void target_obj_callback(const std_msgs::String::ConstPtr &obj)
+{
+    target_obj.data = obj->data;
+}
+
+void map_callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
 	cloud->header.frame_id = "map";
+
+	bool need_add_to_map = true;
 
     for (int i = 0; i < data->name.size(); ++i) {
 	    visualization_msgs::Marker marker, text_marker;
@@ -83,6 +97,8 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         text_marker.color.g = 1.00;
         text_marker.color.b = 1.00;
 
+        need_add_to_map = (data->name[i] != target_obj.data);
+
         if (data->name[i].find("cylinder") != std::string::npos) {
             marker.type = visualization_msgs::Marker::CYLINDER;
             marker.scale.x = 0.060;
@@ -94,7 +110,8 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 0.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
-            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
+            if(need_add_to_map)
+                gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("tennis") != std::string::npos) {
@@ -108,7 +125,8 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
-            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
+            if(need_add_to_map)
+                gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("pop_corn") != std::string::npos) {
@@ -122,7 +140,8 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
-            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
+            if(need_add_to_map)
+                gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
 
         if (data->name[i].find("cup") != std::string::npos) {
@@ -137,12 +156,14 @@ void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
             marker.color.b = 1.0;
             ma.markers.push_back(marker);
             ma.markers.push_back(text_marker);
-            gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
+            if(need_add_to_map)
+                gen_flatcircle(marker.scale.x / 2.0, marker.pose.position.x, marker.pose.position.y);
         }
     }
 
     pub_cloud.publish(cloud);
 	pub_markr.publish(ma);
+	pub_obj.publish(data);
 	cloud->clear();
 };
 
@@ -153,9 +174,11 @@ int main( int argc, char** argv)
     ros::init(argc, argv, "fake_towermap");
     ros::NodeHandle nh;
 
-    sub_gazbo = nh.subscribe<gazebo_msgs::ModelStates>  ("/gazebo/model_states", 1, callback);
-    pub_markr = nh.advertise<visualization_msgs::MarkerArray> ("visualization/fake_towermap/objects", 1);
-	pub_cloud = nh.advertise<pcl::PointCloud<pcl::PointXYZ> > ("fake_towermap/pointcloud", 1);
+    sub_gazbo      = nh.subscribe<gazebo_msgs::ModelStates>  ("/gazebo/model_states", 1, map_callback);
+    sub_target_obj = nh.subscribe<std_msgs::String> ("action_server/target_objects", 1, target_obj_callback);
+    pub_markr      = nh.advertise<visualization_msgs::MarkerArray> ("visualization/fake_towermap/objects", 1);
+	pub_cloud      = nh.advertise<pcl::PointCloud<pcl::PointXYZ> > ("fake_towermap/pointcloud", 1);
+	pub_obj        = nh.advertise<gazebo_msgs::ModelStates>  ("fake_towermap/objects", 1);
 
     ros::spin ();
     return 0;
