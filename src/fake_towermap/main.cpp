@@ -50,35 +50,11 @@ void gen_flatcircle(double r, double x, double y) {
     }
 };
 
-void genstaticmap() {
-    gen_flatline(0, 0, 2, 0);
-    gen_flatline(2, 0, 2, 3);
-    gen_flatline(2, 3, 0, 3);
-    gen_flatline(0, 3, 0, 0);
-
-    gen_flatline(0.8, 0.0, 0.8, 0.4);
-    gen_flatline(0.8, 3.0, 0.8, 2.6);
-    gen_flatline(1.2, 0.0, 1.2, 0.4);
-    gen_flatline(1.2, 3.0, 1.2, 2.6);
-
-    gen_flatline(0, 0.97, 0.58, 0.97);
-    gen_flatline(0, 1.50, 0.58, 1.50);
-    gen_flatline(0, 2.03, 0.58, 2.03);
-
-    gen_flatrect(0, (300.0-31.0)/1000.0, 0.062, (300.0+31.0)/1000.0);
-    gen_flatrect(0, (600.0-31.0)/1000.0, 0.062, (600.0+31.0)/1000.0);
-    gen_flatrect(0, (2400.0-31.0)/1000.0, 0.062, (2400.0+31.0)/1000.0);
-    gen_flatrect(0, (2700.0-31.0)/1000.0, 0.062, (2700.0+31.0)/1000.0);
-};
-
-
-
 
 void callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 {
 	visualization_msgs::MarkerArray ma;
 	cloud->header.frame_id = "map";
-	genstaticmap(); // this is obviously a cludge, the static map should be generated elsewhere
 
     for (int i = 0; i < data->name.size(); ++i) {
 	    visualization_msgs::Marker marker, text_marker;

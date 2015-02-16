@@ -23,13 +23,13 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <cylinder length="0.10938" radius="0.178"/>
+        <cylinder length="0.10938" radius="0.15"/>
       </geometry>
       <origin xyz="0.001 0 0.05199" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <cylinder length="0.10938" radius="0.178"/>
+        <cylinder length="0.10938" radius="0.15"/>
       </geometry>
       <origin xyz="0.0 0 0.05949" rpy="0 0 0"/>
     </collision>
@@ -198,7 +198,7 @@
   <!-- Kinect -->
   <xacro:include filename="$(find nucobot_description)/urdf/sensors/kinect_camera.urdf.xacro" />
   <xacro:kinect_camera name="kinect" parent="base_link">
-    <origin xyz="${0.178/2} 0 ${0.3/2}" rpy="0.0 0.0 0.0"/>
+    <origin xyz="${0.15/2} 0 ${0.3/2}" rpy="0.0 0.0 0.0"/>
   </xacro:kinect_camera>
 
 
