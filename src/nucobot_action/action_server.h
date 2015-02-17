@@ -15,8 +15,13 @@
 #include <std_msgs/String.h>
 #include <nav_msgs/Odometry.h>
 
+
 // base class for action server
 #include <actionlib/server/simple_action_server.h>
+
+// it is necessary to communicate with move_base
+#include <actionlib/client/simple_action_client.h>
+#include <move_base_msgs/MoveBaseAction.h>
 
 // Action description files (check the /action dir)
 #include <nucobot_action/AchieveTargetAction.h>
@@ -34,8 +39,11 @@ private:
     // NodeHandle instance must be created before this line. Otherwise strange error may occur.
     actionlib::SimpleActionServer<nucobot_action::AchieveTargetAction>   as_achieve_target;
 
+    // MoveBase ActionClient
+    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> move_base_ac;
+
     // Motion variables
-    geometry_msgs::Pose2D position;
+    geometry_msgs::PoseStamped position;
     geometry_msgs::Pose2D target;
     std::string target_name;
     gazebo_msgs::ModelStates obj_map;
@@ -52,8 +60,8 @@ public:
     geometry_msgs::Pose2D get_target();
     bool set_target_name(std::string name);
     std::string get_target_name();
-    bool set_position(geometry_msgs::Pose2D position_);
-    geometry_msgs::Pose2D get_position();
+    bool set_position(geometry_msgs::PoseStamped position_);
+    geometry_msgs::PoseStamped get_position();
     bool set_closest_as_target (std::string obj_name);
 };
 

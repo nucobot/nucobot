@@ -12,10 +12,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 ActionServer::ActionServer(ros::NodeHandle nh_):
+    move_base_ac("move_base", true),
     as_achieve_target (nh_, "AchieveTargetAS", boost::bind(&ActionServer::achieveTargetCB, this, _1), false)
 {
-    this->position.x = NAN;
-    this->position.y = NAN;
+    //Waiting for MOveBase action server to start.
+    ros::Duration timeout(3);
+    move_base_ac.waitForServer(timeout);
+
+    this->position.pose.position.x = NAN;
+    this->position.pose.position.y = NAN;
+    this->position.pose.position.z = NAN;
+    this->position.pose.orientation.x = NAN;
+    this->position.pose.orientation.y = NAN;
+    this->position.pose.orientation.z = NAN;
+    this->position.pose.orientation.w = NAN;
     this->target.x = NAN;
     this->target.y = NAN;
     this->target_name = "";
@@ -28,9 +38,14 @@ void ActionServer::achieveTargetCB(const nucobot_action::AchieveTargetGoalConstP
     nucobot_action::AchieveTargetResult result_;
     ros::Rate r(60);
 
-    this->set_closest_as_target("cylinder");
+    this->set_closest_as_target("cup");
 
-    ROS_INFO("%s\n", this->get_target_name().c_str());
+    move_base_msgs::MoveBaseGoal move_base_goal;
+    move_base_goal.target_pose.pose.position.x = this->target.x;
+    move_base_goal.target_pose.pose.position.y = this->target.y;
+    move_base_goal.target_pose.pose.orientation = this->position.pose.orientation;
+    move_base_goal.target_pose.header.frame_id = "map";
+    this->move_base_ac.sendGoal(move_base_goal);
 
     result_.success = true;
     as_achieve_target.setSucceeded(result_);
@@ -51,7 +66,6 @@ bool ActionServer::set_target (geometry_msgs::Pose2D target_)
 {
     this->target.x     = target_.x;
     this->target.y     = target_.y;
-    this->target.theta = target_.theta;
     return true;
 }
 
@@ -63,7 +77,14 @@ geometry_msgs::Pose2D ActionServer::get_target()
 bool ActionServer::set_target_name (std::string name)
 {
     this->target_name = name;
-    return true;
+    for (int i = 0; i < this->obj_map.name.size(); ++i) {
+        if (this->obj_map.name[i] == name) {
+            this->target.x = this->obj_map.pose[i].position.x;
+            this->target.y = this->obj_map.pose[i].position.y;
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string ActionServer::get_target_name()
@@ -71,13 +92,13 @@ std::string ActionServer::get_target_name()
     return this->target_name;
 }
 
-bool ActionServer::set_position(geometry_msgs::Pose2D position_)
+bool ActionServer::set_position(geometry_msgs::PoseStamped position_)
 {
     this->position = position_;
     return true;
 }
 
-geometry_msgs::Pose2D ActionServer::get_position()
+geometry_msgs::PoseStamped ActionServer::get_position()
 {
     return this->position;
 }
@@ -88,14 +109,10 @@ bool ActionServer::set_closest_as_target (std::string obj_name) {
     double tmp_dist = NAN;
     int target_num = -1;
 
-    ROS_INFO("Odom: %lg | %lg", this->position.x, this->position.y);
-
     for (int i = 0; i < this->obj_map.name.size(); ++i) {
         if (this->obj_map.name[i].find(obj_name) != std::string::npos) {
-            tmp_dist = distance (this->position.x, this->position.y,
+            tmp_dist = distance (this->position.pose.position.x, this->position.pose.position.y,
                                  this->obj_map.pose[i].position.x, this->obj_map.pose[i].position.y);
-
-            ROS_INFO("Obj name: %s\n | %lg | %lg", this->obj_map.name[i].c_str(), tmp_dist, min_dist);
 
             if (!initialized) {
                 min_dist = tmp_dist;
@@ -109,8 +126,6 @@ bool ActionServer::set_closest_as_target (std::string obj_name) {
             }
         }
     }
-
-    ROS_INFO("Target name: %s\n", this->get_target_name().c_str());
 
     if (!isnan(min_dist) && target_num >= 0) {
         this->target_name = this->obj_map.name[target_num];

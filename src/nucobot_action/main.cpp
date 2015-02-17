@@ -23,9 +23,10 @@ void obj_map_callback(const gazebo_msgs::ModelStates::ConstPtr &data)
 
 void odom_callback(const nav_msgs::Odometry::ConstPtr &odom)
 {
-    geometry_msgs::Pose2D position_;
-    position_.x = odom->pose.pose.position.x;
-    position_.y = odom->pose.pose.position.y;
+    geometry_msgs::PoseStamped position_;
+    position_.header = odom->header;
+    position_.pose.position = odom->pose.pose.position;
+    position_.pose.orientation = odom->pose.pose.orientation;
     act_srv->set_position(position_);
 }
 
@@ -33,7 +34,6 @@ int main( int argc, char** argv )
 {
     ros::init(argc, argv, "nucobot_action_server");
     ros::NodeHandle nh;
-
 
     ActionServer action_server(nh);
     act_srv = &action_server;

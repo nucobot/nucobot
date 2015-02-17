@@ -64,6 +64,4 @@ def main():
     #sis.stop()
 
 if __name__ == '__main__':
-    print "movement_speed =", movement_speed
-
     main()

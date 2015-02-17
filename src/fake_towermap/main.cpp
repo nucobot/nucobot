@@ -8,6 +8,7 @@
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Point32.h>
 #include <std_msgs/String.h>
+#include <std_srvs/Empty.h>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl_ros/point_cloud.h>
@@ -24,9 +25,12 @@ ros::Publisher  pub_markr;
 ros::Publisher  pub_cloud;
 ros::Publisher  pub_obj;
 
+ros::ServiceClient clear_map_srv;
+
 pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
 std_msgs::String target_obj;
+bool target_obj_changed;
 
 void gen_flatline(double x1, double y1, double x2, double y2)
 {
@@ -60,7 +64,10 @@ void gen_flatcircle(double r, double x, double y)
 
 void target_obj_callback(const std_msgs::String::ConstPtr &obj)
 {
-    target_obj.data = obj->data;
+    if (target_obj.data != obj->data) {
+        target_obj_changed = true;
+        target_obj.data = obj->data;
+    }
 }
 
 void map_callback(const gazebo_msgs::ModelStates::ConstPtr &data)
@@ -98,6 +105,15 @@ void map_callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         text_marker.color.b = 1.00;
 
         need_add_to_map = (data->name[i] != target_obj.data);
+
+        std_srvs::Empty srv;
+
+        if (!need_add_to_map && target_obj_changed) {
+            if (clear_map_srv.call(srv))
+                target_obj_changed = false;
+            else
+                ROS_ERROR("Fake_towermap: Failed to call service clear_map_srv");
+        }
 
         if (data->name[i].find("cylinder") != std::string::npos) {
             marker.type = visualization_msgs::Marker::CYLINDER;
@@ -179,6 +195,10 @@ int main( int argc, char** argv)
     pub_markr      = nh.advertise<visualization_msgs::MarkerArray> ("visualization/fake_towermap/objects", 1);
 	pub_cloud      = nh.advertise<pcl::PointCloud<pcl::PointXYZ> > ("fake_towermap/pointcloud", 1);
 	pub_obj        = nh.advertise<gazebo_msgs::ModelStates>  ("fake_towermap/objects", 1);
+
+	clear_map_srv  = nh.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
+
+	target_obj_changed = false;
 
     ros::spin ();
     return 0;
