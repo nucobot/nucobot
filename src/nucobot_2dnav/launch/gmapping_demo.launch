@@ -8,10 +8,11 @@
   </include>
 
   <include file="$(find nucobot_2dnav)/launch/includes/gmapping.launch.xml"/>
+<!--
   <include file="$(find nucobot_2dnav)/launch/includes/move_base.launch.xml">
     <arg name="base" value="test_base" />
   </include>
-
+-->
   <!-- start Rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find nucobot_2dnav)/rviz/gmapping_demo.rviz"/>
 </launch>

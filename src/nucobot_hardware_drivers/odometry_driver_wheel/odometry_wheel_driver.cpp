@@ -30,10 +30,10 @@ private:
         double rx = dt*double(msg_in->y)/raw_to_meter;
 
         double dyaw = (lx - rx)/separation;
-        double dx = 0, dy = rx;
+        double dx = rx, dy = 0;
         if (dyaw != 0) {
-        	dx = (1 - cos(dyaw)) * (separation/2 + rx/dyaw);
-        	dy = sin(dyaw) * (separation/2 + rx/dyaw);
+        	dx = sin(dyaw) * (separation/2 + rx/dyaw);
+        	dy = (1 - cos(dyaw)) * (separation/2 + rx/dyaw);
         }
 
         this->x += dx * cos(this->yaw) - dy * sin(this->yaw);
