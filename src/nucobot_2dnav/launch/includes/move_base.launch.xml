@@ -8,8 +8,10 @@
     <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/dwa_local_planner_params.yaml" command="load" />
     <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/move_base_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find nucobot_2dnav)/param/$(arg base)/navfn_global_planner_params.yaml" command="load" />
 
     <remap from="cmd_vel" to="$(arg vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
