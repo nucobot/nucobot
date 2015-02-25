@@ -26,17 +26,18 @@ DWAPlannerROS:
 # Goal Tolerance Parameters
   yaw_goal_tolerance: 0.3  # 0.05
   xy_goal_tolerance: 0.05  # 0.10
-  # latch_xy_goal_tolerance: false
+  latch_xy_goal_tolerance: false
 
 # Forward Simulation Parameters
   sim_time: 1.0       # 1.7
-  vx_samples: 6       # 3
+  sim_granularity: 0.025 #0.025 The step size, in meters, to take between points on a given  trajectory 
+  vx_samples: 15      # 3 // After setting dwa to true, I'll also make sure to update the vx_samples parameter to something between 8 and 15 depending on the processing power available. This will allow for non-circular curves to be generated in the rollout. 
   vy_samples: 1       # diff drive robot, there is only one sample
   vtheta_samples: 20  # 20
 
 # Trajectory Scoring Parameters
   path_distance_bias: 64.0      # 32.0   - weighting for how much it should stick to the global path plan
-  goal_distance_bias: 24.0      # 24.0   - wighting for how much it should attempt to reach its goal
+  goal_distance_bias: 24.0      # 24.0   - weighting for how much it should attempt to reach its goal
   occdist_scale: 0.5            # 0.01   - weighting for how much the controller should avoid obstacles
   forward_point_distance: 0.325 # 0.325  - how far along to place an additional scoring point
   stop_time_buffer: 0.2         # 0.2    - amount of time a robot must stop in before colliding for a valid traj.
@@ -44,7 +45,7 @@ DWAPlannerROS:
   max_scaling_factor: 0.2       # 0.2    - how much to scale the robot's footprint when at speed.
 
 # Oscillation Prevention Parameters
-  oscillation_reset_dist: 0.05  # 0.05   - how far to travel before resetting oscillation flags
+  oscillation_reset_dist: 0.1  # 0.05   - how far to travel before resetting oscillation flags
 
 # Debugging
 #  publish_traj_pc : true
@@ -53,4 +54,4 @@ DWAPlannerROS:
 
 
 # Differential-drive robot configuration - necessary?
-#  holonomic_robot: false
+  holonomic_robot: false
