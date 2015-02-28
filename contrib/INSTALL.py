@@ -114,22 +114,28 @@ def add_to_file(f, contents, string):
     else:
         print okg("[OK]: ") + wht(string)
 
-def exec_command(cmd_):
-    print bld(wht("Executing:"))
-    print wht(cmd_, 1)
-    print bld(wht(""))
-    print bld(wht("Result:"))
+def exec_command(cmd_, silent=False):
+    if not silent:
+        print bld(wht("Executing:"))
+        print wht("   "+cmd_)
+        print bld(wht(""))
     try:
-        err_code = subprocess.call(["bash", "-c", cmd_])
-        if (err_code != 0):
-            print bld(err("Error: the return code is "+str(err_code)+". (Non-zero)"))
-            print bld(wrn("If you want to return to this place restart the script."))
-            return 1
+        result = subprocess.check_output(["bash", "-c", cmd_])
+        if not silent:
+            print bld(wht("Result:"))
+            print wht("   "+result)
+   
+    except subprocess.CalledProcessError as e:
+        print bld(err("Error while executing '"+str(e.cmd)+
+                      "': the return code is "+str(e.returncode)+": "+str(e.output)))
+        print bld(wrn("If you want to return to this place restart the script."))
+        return [1, result]
+
     except:
         print bld(err("Something has went wrong! (" + str(sys.exc_info()) + ")")) 
         print bld(wrn("If you want to return to this place restart the script."))
-        return 1
-    return 0
+        return [1, result]
+    return [0, result]
 
 def query(str_):
     valid = {"y": True, "n": False}
@@ -177,8 +183,10 @@ def init_workspace():
         pass
 
     print "\nInitializing ROS workspace at " + ROOT_DIR + "/src";
-    if not exec_command("source "+ ROS_INSTALL_DIR + "/setup.bash " +
-                        "&& cd " + ROOT_DIR + "/src && catkin_init_workspace") == 0:
+    result = exec_command("source "+ ROS_INSTALL_DIR + "/setup.bash " +
+                          "&& cd " + ROOT_DIR + "/src && catkin_init_workspace")
+
+    if (result[0] != 0):
         print bld(err("Unable to execute catkin_init_workspace. Have you installed ROS?"))
         exit(1)
 
@@ -235,13 +243,17 @@ def gen_launcher(bash_name, launcher_name, icon_name, command):
     add_shortcut(launcher_name, ROOT_DIR + '/contrib/icons/' + icon_name, file_path)
 
 def setup_user_permissions():
-    print hdr("You user (")+bld(okb(USERNAME))+hdr(") should be in a ")+err("'dialout'")+hdr(" group to be able to communicate with some sensor types.\n"+
-              "Do you wish to be added? (Requires superuser privileges)") 
-    if (query("y/n?")):
-        print wht("Adding user " + USERNAME + " to 'dialout'...")
-        exec_command("sudo adduser " + USERNAME + " dialout")
-    else:
-        print wht("Skipping...")
+    result = exec_command("groups " + USERNAME, True)
+    if (result[0] == 0) and "dialout" not in result[1]:
+        print hdr("Your user (")+bld(hdr(USERNAME))+hdr(") should "+
+                  "be in a ")+err("'dialout'")+hdr(" group to be able "+
+                  "to communicate with some sensor types.\n"+
+                  "Do you wish to be added? (Requires superuser privileges)") 
+        if (query("y/n?")):
+            print wht("Adding user " + USERNAME + " to 'dialout'...")
+            exec_command("sudo adduser " + USERNAME + " dialout")
+        else:
+            print wht("Skipping...")
 
 
 def install_project_deps(dep_list):
