@@ -47,7 +47,7 @@ TrajectoryPlannerROS:
   #heading_lookahead
   #heading_scoring 
   #heading_scoring_timestep
-  dwa: true
+  dwa: false
   #? stop_time_buffer: 0.2         # 0.2    - amount of time a robot must stop in before colliding for a valid traj.
   #? scaling_speed: 0.25           # 0.25   - absolute velocity at which to start scaling the robot's footprint
   #? max_scaling_factor: 0.2       # 0.2    - how much to scale the robot's footprint when at speed.
