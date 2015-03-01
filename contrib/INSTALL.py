@@ -52,7 +52,8 @@ HOME_DIR = os.path.expanduser("~")
 USERNAME = getpass.getuser()
 
 DEPS = ["ros-hydro-ros-control", 
-        "ros-hydro-rosserial"]
+        "ros-hydro-rosserial",
+        "ros-hydro-openni-launch"]
 
 try:
     ROS_HOSTNAME=os.environ["ROS_HOSTNAME"]
