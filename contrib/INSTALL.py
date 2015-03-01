@@ -298,7 +298,7 @@ def create_startup_scripts():
     user_launcher = ("#!/bin/bash\n"+
     "echo \"$(sudo -u "+USERNAME+" "+HOME_DIR+"/.user_startup.sh)\"\n")
     root_launcher = ("#!/bin/bash\n"+
-    "echo \"$(sudo -u root "+HOME_DIR+"/.user_startup.sh)\"\n")
+    "echo \"$(sudo -u root "+HOME_DIR+"/.root_startup.sh)\"\n")
     write_file_safely_root("/etc/init.d/user_startup_launcher.sh", user_launcher)
     write_file_safely_root("/etc/init.d/root_startup_launcher.sh", root_launcher)
 
