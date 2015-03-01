@@ -120,25 +120,23 @@ def add_to_file(f, contents, string):
 
 def exec_command(cmd_, silent=False):
     if not silent:
-        print bld(wht("Executing:"))
-        print wht("   "+cmd_)
-        print bld(wht(""))
+        print bld(okb("Executing bash commands:"))
+        print hdr(cmd_+"...")
     try:
         result = subprocess.check_output(["bash", "-c", cmd_])
         if not silent:
-            print bld(wht("Result:"))
-            print wht("   "+result)
+            print wht(result)
    
     except subprocess.CalledProcessError as e:
         print bld(err("Error while executing '"+str(e.cmd)+
                       "': the return code is "+str(e.returncode)+": "+str(e.output)))
         print bld(wrn("If you want to return to this place restart the script."))
-        return [1, result]
+        return [1, ""]
 
     except:
         print bld(err("Something has went wrong! (" + str(sys.exc_info()) + ")")) 
         print bld(wrn("If you want to return to this place restart the script."))
-        return [1, result]
+        return [1, ""]
     return [0, result]
 
 def query(str_):
@@ -195,8 +193,34 @@ def init_workspace():
         print bld(err("Unable to execute catkin_init_workspace. Have you installed ROS?"))
         exit(1)
 
+# Write 'format_str' to 'file_path' properly
+def write_file_safely(file_path, format_str):
+    try:
+        bash_scipt_file = open(file_path, 'w+')
+        bash_scipt_file.write(format_str)
+        os.chmod(file_path, 0775)
+        print okg("Written to ")+okb(file_path)
+    except:
+        print bld(err("Error creating "))+okb(file_path)
+        print bld(err(sys.exc_info()))
+        exit(1)
+
+def write_file_safely_root(file_path, format_str):
+    write_file_safely(HOME_DIR+"/.INSTALLPY_tmp", format_str)
+    result = exec_command("sudo mv "+HOME_DIR+"/.INSTALLPY_tmp "+file_path)
+    if (result[0] != 0):
+        print bld(err("Aborting..."))
+        try:
+            os.remove(HOME_DIR+"/.INSTALLPY_tmp")
+        except:
+            print bld(err("Unable to remove "))+okb(file_path)
+            print bld(err(sys.exc_info()))
+            print bld(err("This is strange. You better remove it manually then..."))
+        exit(1)
+        
+
+# Generates a shortcut. (Like alacarte utilite)
 def add_shortcut(name, icon, command):
-    # The generation is done analogicaly to alacarte utilite
     if not os.path.isfile(icon):
         print bld(err("No such icon: ")) + okb(icon)
         exit(1)
@@ -210,21 +234,20 @@ def add_shortcut(name, icon, command):
                  'Name=' + name + '\n'\
                  'Icon=' + icon + '\n'\
                  'Exec=' + command
-    try:
-        desktop_file = open(file_path, 'w+')
-        desktop_file.write(format_str)
-        os.chmod(file_path, 0775)
-        print okg("Written to ")+okb(file_path)
-    except:
-        print bld(err("Error creating "))+okb(file_path)
-        print sys.exc_info()
-        exit(1)
+    write_file_safely(file_path, format_str)
 
-def gen_launcher(bash_name, launcher_name, icon_name, command):
-    format_str = '#!/bin/bash\n'\
-    'source ' + ROS_INSTALL_DIR + '/setup.bash\n'\
-    'source ' + LOCAL_BASH_FILE + '\n'\
-    'export CMAKE_PREFIX_PATH=/usr/local:$CMAKE_PREFIX_PATH\n'
+def gen_bash_header(logfile=""):
+    if (logfile == ""): logfile="/dev/tty"
+    format_str = ("#!/bin/bash\n"+
+    "LOGFILE="+logfile+"\n\n"+
+    "echo \"============================\" > $LOGFILE\n"+
+    "echo \"$(date)\" >> $LOGFILE\n"+
+    "echo \"============================\" >> $LOGFILE\n"+
+    "echo \"Startup from user '$(whoami)'\" >> $LOGFILE\n"+
+    "echo \"\" >> $LOGFILE\n"+
+    "source " + ROS_INSTALL_DIR + "/setup.bash &>> $LOGFILE\n"+
+    "source " + LOCAL_BASH_FILE + " &>> $LOGFILE\n"+
+    "export CMAKE_PREFIX_PATH=/usr/local:$CMAKE_PREFIX_PATH\n")
     if len(str(ROS_HOSTNAME)) != 0:
         format_str +='export ROS_HOSTNAME=' + str(ROS_HOSTNAME) + '\n'
     if len(str(ROS_MASTER_URI)) != 0:
@@ -237,20 +260,13 @@ def gen_launcher(bash_name, launcher_name, icon_name, command):
         format_str +='export NUCOBOT_3D_SENSOR=' + str(NUCOBOT_3D_SENSOR) + '\n'
     if len(str(NUCOBOT_SIMULATION)) != 0:
         format_str +='export NUCOBOT_SIMULATION=' + str(NUCOBOT_SIMULATION) + '\n'
-    format_str += '\n' + command + '\n\n'\
-    'sleep 0.2'
+    return format_str
 
+def gen_launcher(bash_name, launcher_name, icon_name, command):
     file_path = LAUNCHER_DIR + bash_name
-    try:
-        bash_scipt_file = open(file_path, 'w+')
-        bash_scipt_file.write(format_str)
-        os.chmod(file_path, 0744)
-        print okg("Written to ")+okb(file_path)
-    except:
-        print bld(err("Error creating "))+okb(file_path)
-        print bld(err("Check the permissions"))
-        exit(1)
-
+    format_str = gen_bash_header()
+    format_str += "\n" + command + " &>> $LOGFILE\n\nsleep 0.2"
+    write_file_safely(file_path, format_str)
     add_shortcut(launcher_name, ROOT_DIR + '/contrib/icons/' + icon_name, file_path)
 
 def setup_user_permissions():
@@ -266,13 +282,49 @@ def setup_user_permissions():
         else:
             print wht("Skipping...")
 
-
 def install_project_deps():
     print wht("Installing project dependencies:")
     cmd_ = "sudo apt-get install -y"
     for dep in DEPS:
         cmd_ += " " + dep
     exec_command(cmd_)
+
+# This will generate scripts that will be launched on system startup
+def create_startup_scripts():
+    print wht("Creating system starup scripts requires root permissions. "+
+              "Do you wish to continue?")
+    if (not query("y/n?")):
+        return
+    user_launcher = ("#!/bin/bash\n"+
+    "echo \"$(sudo -u "+USERNAME+" "+HOME_DIR+"/.user_startup.sh)\"\n")
+    root_launcher = ("#!/bin/bash\n"+
+    "echo \"$(sudo -u root "+HOME_DIR+"/.user_startup.sh)\"\n")
+    write_file_safely_root("/etc/init.d/user_startup_launcher.sh", user_launcher)
+    write_file_safely_root("/etc/init.d/root_startup_launcher.sh", root_launcher)
+
+    result = exec_command("sudo update-rc.d user_startup_launcher.sh defaults")
+    if (result[0] != 0): exit(1)
+    result = exec_command("sudo update-rc.d root_startup_launcher.sh defaults")
+    if (result[0] != 0): exit(1)
+    
+    user_format_str = gen_bash_header(HOME_DIR+"/.user_startup.log")
+    user_format_str+= ("\nDRIVE_USB_FILE=/dev/ttyUSB0\n\n"+
+    "echo \"Waiting until $DRIVE_USB_FILE appears in the system...\" >> $LOGFILE\n"+
+    "while [ ! -e $DRIVE_USB_FILE ]\n"+
+    "do\n"+
+    "   sleep 0.2\n"+
+    "done\n"+
+    "echo \"...Found\" >> $LOGFILE\n"+
+    "echo \"\" >> $LOGFILE\n"+
+    "echo \"== Starting up the driver ==\" >> $LOGFILE\n"+
+    "echo \"$(date)\" >> $LOGFILE\n"+
+    "echo \"============================\" >> $LOGFILE\n"+
+    "echo \"\" >> $LOGFILE\n"+
+    "echo \"$(roslaunch nucobot_bringup minimal.launch &>> $LOGFILE )\"\n")
+    write_file_safely(HOME_DIR+"/.user_startup.sh", user_format_str)
+
+    root_format_str = gen_bash_header(HOME_DIR+"/.root_startup.log")
+    write_file_safely(HOME_DIR+"/.root_startup.sh", root_format_str)
 
 
 # Handle command line args
@@ -283,6 +335,8 @@ parser.add_argument('-i', dest='only_info', action='store_const', const=True, de
                     help='only print some useful system info and exit')
 parser.add_argument('--deps', dest='install_deps', action='store_const', const=True, default=False,
                     help='install deps and exit')
+parser.add_argument('--startup', dest='init_startup', action='store_const', const=True, default=False,
+                    help='initialize startup scripts')
 args = parser.parse_args()
 used_only_cli = False
 if (args.only_clear):
@@ -296,6 +350,10 @@ if (args.only_info):
 if (args.install_deps):
     used_only_cli = True
     install_project_deps()
+
+if (args.init_startup):
+    used_only_cli = True
+    create_startup_scripts()
 
 if (used_only_cli): exit(0)
 

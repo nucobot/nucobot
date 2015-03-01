@@ -1,9 +1,9 @@
 <launch>
   <!-- Nucobot Driver -->
-  <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" args="_port:=/dev/ttyACM0" output="screen"/>
+  <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" args="_port:=/dev/ttyUSB0" output="screen" respawn="true"/>
 
   <!-- The odometry estimator -->
-  <node pkg="odometry_driver_wheel" type="odometry_wheel_driver" name="odometry_wheel_driver_node" output="screen"/>
+  <node pkg="odometry_driver_wheel" type="odometry_wheel_driver" name="odometry_wheel_driver_node" output="screen" respawn="true"/>
 
   <!--
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
