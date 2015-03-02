@@ -19,7 +19,7 @@ base_local_planner: "base_local_planner/TrajectoryPlannerROS" # alternatives dwa
 
 base_global_planner: "navfn/NavfnROS" #alternatives: global_planner/GlobalPlanner, carrot_planner/CarrotPlanner
 
-recovery_behaviors: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: move_slow_and_clear, type: move_slow_and_clear/MoveSlowAndClear}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}] 
+recovery_behaviors: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: move_slow_and_clear, type: move_slow_and_clear/MoveSlowAndClear}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: rotate_recovery, type: rotate_recovery/RotateRecovery}] 
 
 #We plan to integrate recovery behaviors for turtlebot but currently those belong to gopher and still have to be adapted.
 ## recovery behaviors; we avoid spinning, but we need a fall-back replanning
