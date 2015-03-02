@@ -3,14 +3,14 @@
   <arg name="x" default="1.000"/>
   <arg name="y" default="0.250"/>
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/bertha/bertha.urdf.xacro'" />
-  <node name="bertha_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-        args="-urdf -model big_bertha -param robot_description -x $(arg x) -y $(arg y) -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/pikea/pikea.urdf.xacro'" />
+  <node name="pikea_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+        args="-urdf -model pikea -param robot_description -x $(arg x) -y $(arg y) -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
 
   <!-- load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find nucobot_control)/config/joint_position_control.yaml" command="load" />
   <!-- load the controllers -->
-  <node name="bertha_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
+  <node name="pikea_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
 
   <!-- publish all the frames to TF -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
