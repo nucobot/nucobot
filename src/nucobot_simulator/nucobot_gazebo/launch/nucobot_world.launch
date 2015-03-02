@@ -18,7 +18,7 @@
 
   <!-- Load the URDF into the ROS Parameter Server and spawn it in Gazebo-->
   <!-- Spawn the robot -->
-  <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch"/>
+  <include file="$(find nucobot_gazebo)/launch/spawn_bertha.launch"/>
 
   <!-- Spawn the Beacons -->
   <include file="$(find nucobot_gazebo)/launch/spawn_beacons.launch"/>

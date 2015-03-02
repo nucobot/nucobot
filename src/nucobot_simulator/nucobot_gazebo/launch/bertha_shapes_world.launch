@@ -10,7 +10,7 @@
   </include>
 
   <!-- Spawn the robot -->
-  <include file="$(find nucobot_gazebo)/launch/spawn_nucobot.launch">
+  <include file="$(find nucobot_gazebo)/launch/spawn_bertha.launch">
     <arg name="x" value="0" />
     <arg name="y" value="0" />
   </include>
