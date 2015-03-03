@@ -1,5 +1,5 @@
 <launch>
-  <arg name="base"       default="$(optenv NUCOBOT_BASE test_base)"/>
+  <arg name="base"       default="$(optenv NUCOBOT_BASE lisa)"/>
   <arg name="3d_sensor"  default="$(optenv NUCOBOT_3D_SENSOR kinect)"/>
   <arg name="simulation" default="$(optenv NUCOBOT_SIMULATION false)"/>
 

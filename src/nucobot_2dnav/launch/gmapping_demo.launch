@@ -10,7 +10,7 @@
   <include file="$(find nucobot_2dnav)/launch/includes/gmapping.launch.xml"/>
 <!--
   <include file="$(find nucobot_2dnav)/launch/includes/move_base.launch.xml">
-    <arg name="base" value="test_base" />
+    <arg name="base" value="lisa" />
   </include>
 -->
   <!-- start Rviz -->

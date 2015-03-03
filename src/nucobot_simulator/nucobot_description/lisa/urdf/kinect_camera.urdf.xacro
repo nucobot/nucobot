@@ -15,13 +15,13 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://nucobot_description/bertha/meshes/kinect_camera_simple.dae"/>
+            <mesh filename="package://nucobot_description/lisa/meshes/kinect_camera_simple.dae"/>
           </geometry>
         </visual>
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://nucobot_description/bertha/meshes/kinect_camera_simple.dae"/>
+            <mesh filename="package://nucobot_description/lisa/meshes/kinect_camera_simple.dae"/>
           </geometry>
         </collision>
       </link>

@@ -4,7 +4,7 @@
   <arg name="position"/>
   <arg name="rotation"/>
 
-  <param name="beacon_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/beacon/beacon.xacro' prefix:=$(arg prefix) color:=$(arg color)" />
+  <param name="beacon_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/map_objects/urdf/beacon.xacro' prefix:=$(arg prefix) color:=$(arg color)" />
   <node name="urdf_beacon_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-urdf $(arg position) $(arg rotation) -model beacon_$(arg prefix) -param beacon_description_$(arg prefix)"/>
 

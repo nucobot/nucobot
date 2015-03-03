@@ -2,7 +2,7 @@
   <arg name="prefix"/>
   <arg name="position"/>
 
-  <param name="tennis_ball_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/toys/tennis_ball.xacro' prefix:=$(arg prefix)" />
+  <param name="tennis_ball_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/map_objects/urdf/tennis_ball.xacro' prefix:=$(arg prefix)" />
   <node name="urdf_tennis_ball_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
         args="-urdf $(arg position) -model tennis_ball_$(arg prefix) -param tennis_ball_description_$(arg prefix)"/>
 

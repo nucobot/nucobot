@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="pikea" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find nucobot_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find nucobot_description)/pikea/urdf/materials.xacro" />
   <property name="M_PI" value="3.1415926535897931" />  
   <property name="WHEEL_SEP" value="0.15" />  
   <property name="WHEEL_DIA" value="0.07" />  
@@ -19,13 +19,13 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/body.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/body.dae"/>
       </geometry>
       <origin xyz="0.001 0 0.0" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/body.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/body.dae"/>
       </geometry>
       <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
     </collision>
@@ -47,13 +47,13 @@
   <link name="wheel_left_link">
     <visual>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -75,13 +75,13 @@
   <link name="wheel_right_link">
     <visual>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
@@ -102,13 +102,13 @@
   <link name="wheel_front_link">
     <visual>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://nucobot_description/meshes/pikea/wheel.dae"/>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>

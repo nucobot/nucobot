@@ -2,7 +2,7 @@
   <arg name="prefix"/>
   <arg name="position"/>
 
-  <param name="pop_corn_ball_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/urdf/toys/pop_corn_ball.xacro' prefix:=$(arg prefix)" />
+  <param name="pop_corn_ball_description_$(arg prefix)" command="$(find xacro)/xacro.py '$(find nucobot_description)/map_objects/urdf/pop_corn_ball.xacro' prefix:=$(arg prefix)" />
   <node name="urdf_pop_corn_ball_spawner_$(arg prefix)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
         args="-urdf $(arg position) -model pop_corn_ball_$(arg prefix) -param pop_corn_ball_description_$(arg prefix)"/>
 
