@@ -1,6 +1,6 @@
 <launch>
   <!-- start Rviz -->
-  <include file="$(find nucobot_description)/launch/nucobot_rviz.launch"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find nucobot_simulator)/launch/nucobot.rviz"/>
   
   <!-- start processing nodes-->
   <!-- fake map for navigation -->
