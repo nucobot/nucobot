@@ -31,6 +31,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
 std_msgs::String target_obj;
 bool target_obj_changed;
+std::vector<std::string> untracked_objs;
 
 void gen_flatline(double x1, double y1, double x2, double y2)
 {
@@ -67,6 +68,8 @@ void target_obj_callback(const std_msgs::String::ConstPtr &obj)
     if (target_obj.data != obj->data) {
         target_obj_changed = true;
         target_obj.data = obj->data;
+        if (!(std::find(untracked_objs.begin(), untracked_objs.end(), obj->data) != untracked_objs.end()))
+            untracked_objs.push_back(obj->data);
     }
 }
 
@@ -104,16 +107,22 @@ void map_callback(const gazebo_msgs::ModelStates::ConstPtr &data)
         text_marker.color.g = 1.00;
         text_marker.color.b = 1.00;
 
-        need_add_to_map = (data->name[i] != target_obj.data);
+
+        need_add_to_map = !(std::find(untracked_objs.begin(), untracked_objs.end(), data->name[i]) != untracked_objs.end());
 
         std_srvs::Empty srv;
 
         if (!need_add_to_map && target_obj_changed) {
+            ROS_ERROR("UntrackedObj\n==========================");
+            for (int j = 0; j < untracked_objs.size(); ++j)
+                ROS_ERROR("%s", untracked_objs.at(j).c_str());
+            ROS_ERROR("========================== %d", target_obj_changed);
             if (clear_map_srv.call(srv))
                 target_obj_changed = false;
             else
                 ROS_ERROR("Fake_towermap: Failed to call service clear_map_srv");
         }
+
 
         if (data->name[i].find("cylinder") != std::string::npos) {
             marker.type = visualization_msgs::Marker::CYLINDER;
