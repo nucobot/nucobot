@@ -38,7 +38,7 @@ IMU imu;
 ros::NodeHandle nh;
 sensor_msgs::Imu imu_msg;
 geometry_msgs::Point wheel_odom_msg;
-ros::Publisher pub_imu("imu_data",&imu_msg);
+ros::Publisher pub_imu("imu/data_raw",&imu_msg);
 ros::Publisher pub_wheel_odom("raw_wheel_odometry", &wheel_odom_msg);
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", motor_cb);
 
