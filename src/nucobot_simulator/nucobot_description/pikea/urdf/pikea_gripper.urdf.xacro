@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="pi" value="3.1415926535897931" />
+
+  <xacro:macro name="grip_finger" params="name parent *origin">
+  <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+  </joint>
+  <link name="${name}_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/left_hand_outer.dae"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/left_hand_outer.dae"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0"
+               iyy="0.1" iyz="0.0" 
+               izz="0.1" />
+    </inertial>
+  </link>
+  </xacro:macro>
+
+  <xacro:macro name="gripper" params="name parent *origin ros_topic">
+  <!-- The gripper base -->
+  <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+  </joint>
+  <link name="${name}_link">
+    <visual>
+      <geometry>
+        <box size="0.01 0.01 0.01" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.01 0.01 0.01" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0"
+               iyy="0.1" iyz="0.0" 
+               izz="0.1" />
+    </inertial>
+  </link>
+
+  <!-- ... And two fingers -->
+  <xacro:grip_finger name="${name}_left_finger" parent="${name}_link">
+     <origin xyz="0.0 0.02 0.0" rpy="0 0 0"/>
+  </xacro:grip_finger>
+  </xacro:macro>
+</robot>

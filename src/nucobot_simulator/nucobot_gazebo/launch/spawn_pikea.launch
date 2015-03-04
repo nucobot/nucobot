@@ -3,7 +3,7 @@
   <arg name="x" default="1.000"/>
   <arg name="y" default="0.250"/>
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/pikea/urdf/pikea.urdf.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find nucobot_description)/pikea/urdf/pikea.gazebo.xacro'" />
   <node name="pikea_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
         args="-urdf -model pikea -param robot_description -x $(arg x) -y $(arg y) -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
 
