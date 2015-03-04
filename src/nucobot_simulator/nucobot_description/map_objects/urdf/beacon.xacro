@@ -6,9 +6,9 @@
   <xacro:property name="height" value="0.16" />
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find nucobot_description)/urdf/beacon/beacon.gazebo" />
+  <xacro:include filename="$(find nucobot_description)/map_objects/urdf/beacon.gazebo" />
   <!-- Import Rviz colors -->
-  <xacro:include filename="$(find nucobot_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find nucobot_description)/map_objects/urdf/materials.xacro" />
 
   <!-- Camera -->
   <link name="beacon_$(arg prefix)_base_link">

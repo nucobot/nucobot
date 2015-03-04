@@ -11,7 +11,7 @@
   <include file="$(find nucobot_2dnav)/launch/includes/move_base.launch.xml">
     <arg name="odom_topic"     value="odom"/>
     <arg name="vel_topic"      value="cmd_vel"/>
-    <arg name="base"           value="nucobot-2"/>
+    <arg name="base"           value="pikea"/>
   </include>
 
   <!-- map server (static map) -->
