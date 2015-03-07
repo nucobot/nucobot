@@ -17,4 +17,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <run_depend>controller_manager</run_depend>
+  <run_depend>ros_control</run_depend>
+  <run_depend>ros_controllers</run_depend>
+
 </package>

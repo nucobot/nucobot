@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 
 <robot name="pikea" xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:include filename="$(find nucobot_description)/pikea/urdf/pikea.urdf.xacro" />
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/pikea</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <xacro:include filename="$(find nucobot_description)/pikea/urdf/pikea.urdf.xacro" />
 </robot>
 
