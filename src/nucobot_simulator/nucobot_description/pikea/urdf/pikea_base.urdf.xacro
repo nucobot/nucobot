@@ -6,6 +6,21 @@
 
   <!-- Main link -->
   <xacro:macro name="pikea_base_macro" params="wheel_h">
+  <joint name="base_to_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0 0.0 ${wheel_h}" rpy="0 0 0"/>
+  </joint>
+  <link name="base_footprint">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0" 
+               izz="0.0001" />
+    </inertial>
+  </link>
+
   <link name="base_link">
     <visual>
       <geometry>
@@ -21,17 +36,17 @@
     </collision>
     <inertial>
       <origin xyz="0 0 ${wheel_h}"/>
-      <mass value="3.4"/>
-      <inertia ixx="0.57" ixy="0.0" ixz="0.0"
-               iyy="0.57" iyz="0.0" 
-               izz="0.57" />
+      <mass value="2.4"/>
+      <inertia ixx="0.27" ixy="0.0" ixz="0.0"
+               iyy="0.27" iyz="0.0" 
+               izz="0.27" />
     </inertial>
   </link>
 
   <joint name="caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_link"/>
-    <origin xyz="0 -0.04 -0.08" rpy="${pi/2} 0 0"/>
+    <origin xyz="0 -0.04 ${wheel_h}" rpy="${pi/2} 0 0"/>
   </joint>
   <link name="caster_link">
     <visual>

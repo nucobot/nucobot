@@ -81,8 +81,8 @@
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
-      <publishWheelTF>false</publishWheelTF>
-      <publishWheelJointState>false</publishWheelJointState>
+      <publishWheelTF>true</publishWheelTF>
+      <publishWheelJointState>true</publishWheelJointState>
       <robotBaseFrame>${parent}</robotBaseFrame>
       <rosDebugLevel>na</rosDebugLevel>
     </plugin>

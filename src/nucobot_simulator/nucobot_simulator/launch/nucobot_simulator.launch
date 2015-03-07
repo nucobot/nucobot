@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+
 <launch>
   <!-- start Rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find nucobot_simulator)/launch/nucobot.rviz"/>
@@ -21,7 +23,7 @@
   </node>
   
   <!-- localization -->
-  <node pkg="tf" type="static_transform_publisher" name="fake_localization" args="0 0 0 0 0 0 1 map odom 100" />
+  <node pkg="tf" type="static_transform_publisher" name="fake_localization" args="0 0 0 0 0 0 1 map odom 100"/>
 
   <!-- action -->
   <node pkg="nucobot_action" name="nucobot_action_server" type="nucobot_action_server" output="screen"/>

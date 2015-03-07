@@ -9,11 +9,6 @@
   <node name="lisa_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
         args="-urdf -model pikea -param robot_description -x $(arg x) -y $(arg y) -z 0.2 -R 0.0 -P 0.0 -Y 1.57"/>
 
-  <!-- load joint controller configurations from YAML file to parameter server -->
-  <rosparam file="$(find nucobot_control)/config/joint_position_control.yaml" command="load" />
-  <!-- load the controllers -->
-  <node name="lisa_controller" pkg="controller_manager" type="spawner" output="screen" args="joint_state_controller" />
-
   <!-- publish all the frames to TF -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
     <param name="publish_frequency" value="50"/> <!-- Hz -->
