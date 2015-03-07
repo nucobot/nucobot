@@ -21,13 +21,12 @@
     </collision>
     <inertial>
       <origin xyz="0 0 ${wheel_h}"/>
-      <mass value="2.4"/>
-      <inertia ixx="0.019995" ixy="0.0" ixz="0.0"
-               iyy="0.019995" iyz="0.0" 
-               izz="0.03675" />
+      <mass value="3.4"/>
+      <inertia ixx="0.57" ixy="0.0" ixz="0.0"
+               iyy="0.57" iyz="0.0" 
+               izz="0.57" />
     </inertial>
   </link>
-
 
   <joint name="caster_joint" type="fixed">
     <parent link="base_link"/>
