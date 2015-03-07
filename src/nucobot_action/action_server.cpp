@@ -38,7 +38,16 @@ void ActionServer::achieveTargetCB(const nucobot_action::AchieveTargetGoalConstP
     nucobot_action::AchieveTargetResult result_;
     ros::Rate r(60);
 
-    this->set_closest_as_target("cup");
+    //this->set_closest_as_target("cup");
+
+    std::string targ_name;
+
+    do {
+        std::cin >> targ_name;
+    } while (!this->set_target_name(targ_name));
+
+    ROS_ERROR("%s: %lg | %lg", this->target_name.c_str(), this->target.x, this->target.y);
+
 
     move_base_msgs::MoveBaseGoal move_base_goal;
     move_base_goal.target_pose.pose.position.x = this->target.x;
