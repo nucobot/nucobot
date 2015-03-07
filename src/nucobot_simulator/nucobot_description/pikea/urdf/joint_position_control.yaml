@@ -1,0 +1,25 @@
+# Configure params for URDF 'transmission' tags
+
+pikea:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+  # Position Controllers ---------------------------------------
+  gripper1/rght:
+    type: effort_controllers/JointPositionController
+    joint: gripper_1_rght_finger_joint
+    pid: {p: 10.0, i: 0.01, d: 1.0}
+  gripper1/left:
+    type: effort_controllers/JointPositionController
+    joint: gripper_1_left_finger_joint
+    pid: {p: 10.0, i: 0.01, d: 1.0}
+  gripper2/rght:
+    type: effort_controllers/JointPositionController
+    joint: gripper_2_rght_finger_joint
+    pid: {p: 10.0, i: 0.01, d: 1.0}
+  gripper2/left:
+    type: effort_controllers/JointPositionController
+    joint: gripper_2_left_finger_joint
+    pid: {p: 10.0, i: 0.01, d: 1.0}

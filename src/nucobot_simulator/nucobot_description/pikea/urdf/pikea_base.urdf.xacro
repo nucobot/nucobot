@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="pi" value="3.1415926535897931" />
+
+  <!-- Main link -->
+  <xacro:macro name="pikea_base_macro" params="wheel_h">
+  <joint name="base_to_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0 0.0 ${wheel_h}" rpy="0 0 0"/>
+  </joint>
+  <link name="base_footprint">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0" 
+               izz="0.0001" />
+    </inertial>
+  </link>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/body.dae"/>
+      </geometry>
+      <origin xyz="0.001 0 0.0" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/body.dae"/>
+      </geometry>
+      <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 ${wheel_h}"/>
+      <mass value="2.4"/>
+      <inertia ixx="0.27" ixy="0.0" ixz="0.0"
+               iyy="0.27" iyz="0.0" 
+               izz="0.27" />
+    </inertial>
+  </link>
+
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_link"/>
+    <origin xyz="0 -0.04 ${wheel_h}" rpy="${pi/2} 0 0"/>
+  </joint>
+  <link name="caster_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://nucobot_description/pikea/meshes/wheel.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+               iyy="0.001" iyz="0.0" 
+               izz="0.001" />
+    </inertial>
+  </link>
+  <gazebo reference="caster_link">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+
+
+  </xacro:macro>
+</robot>
