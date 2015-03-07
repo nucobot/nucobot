@@ -20,7 +20,7 @@
 
   <!-- Load the URDF into the ROS Parameter Server and spawn it in Gazebo-->
   <!-- Spawn the robot -->
-  <include file="$(find nucobot_gazebo)/launch/spawn_pikea.launch"/>
+  <include file="$(find nucobot_gazebo)/launch/spawn_pikea.launch">
     <arg name="x" value="1.000"/>
     <arg name="y" value="0.350"/>
   </include>
