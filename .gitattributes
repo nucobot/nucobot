@@ -1,2 +1,2 @@
-#/contrib/INSTALL.py linguist-vendored=true
-*/INSTALL.py linguist-language=CSS
+*.txt linguist-vendored=true
+*/contrib/* linguist-vendored=true
