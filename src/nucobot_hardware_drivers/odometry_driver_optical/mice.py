@@ -5,8 +5,8 @@ from evdev import InputDevice, list_devices, ecodes
 from select import select
 import sys, os
 
-left_phys = "usb-0000:00:1a.0-1.2/input0"
-rhgt_phys = "usb-0000:00:14.0-2/input0"
+left_phys = "usb-0000:00:14.0-3.3/input0"
+rhgt_phys = "usb-0000:00:14.0-3.4/input0"
 devices = [InputDevice(fn) for fn in list_devices()]
 
 def print_all():
