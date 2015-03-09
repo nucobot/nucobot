@@ -283,6 +283,11 @@ def setup_user_permissions():
         else:
             print wht("Skipping...")
 
+def setup_dev_permissions():
+    file_path = "/etc/udev/rules.d/85-inputdevice.rules"
+    format_str = "SUBSYSTEM==\"input\", MODE=\"666\""
+    write_file_safely_root(file_path, format_str)
+
 def install_project_deps():
     print wht("Installing project dependencies:")
     cmd_ = "sudo apt-get install -y"
@@ -338,6 +343,9 @@ parser.add_argument('--deps', dest='install_deps', action='store_const', const=T
                     help='install deps and exit')
 parser.add_argument('--startup', dest='init_startup', action='store_const', const=True, default=False,
                     help='initialize startup scripts')
+parser.add_argument('--perm', dest='setup_permissions', action='store_const', const=True, default=False,
+                    help='This will change /dev/input permissions so that it would be possible to access it as non-root.'+
+                    'Requres sudo. Will need to restart the system.')
 args = parser.parse_args()
 used_only_cli = False
 if (args.only_clear):
@@ -355,6 +363,10 @@ if (args.install_deps):
 if (args.init_startup):
     used_only_cli = True
     create_startup_scripts()
+
+if (args.setup_permissions):
+    used_only_cli = True
+    setup_dev_permissions()
 
 if (used_only_cli): exit(0)
 
