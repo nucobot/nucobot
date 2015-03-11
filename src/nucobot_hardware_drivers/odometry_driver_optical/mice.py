@@ -23,6 +23,32 @@ def find_phys(ph):
         rospy.logerr(str(ph) + " phys was not found!")
         exit(1)
 
+
+def read_device(valid_devices):
+    res = [0, 0, 0, 0]
+    r,w,x = select(valid_devices, [], [], 1.0/50.0)
+    print r
+    left_fd = valid_devices.keys()[0]
+    rght_fd = valid_devices.keys()[1]
+    for fd in r:
+        for event in valid_devices[fd].read():
+            if event.type == ecodes.EV_REL:
+                if (fd == left_fd):
+                    if (event.code == ecodes.REL_X):
+                        res[0] = event.value
+                        #rospy.loginfo("xleft: --> " + str(event.value))
+                    if (event.code == ecodes.REL_Y):
+                        res[1] = event.value
+                        #rospy.loginfo("yleft: --> " + str(event.value))
+                if (fd == rght_fd):
+                    if (event.code == ecodes.REL_X):
+                        res[2] = event.value
+                        #rospy.loginfo("xrght: --> " + str(event.value))
+                    if (event.code == ecodes.REL_Y):
+                        res[3] = event.value
+                        #rospy.loginfo("yrght: --> " + str(event.value))
+    return res
+
 def main():
     rospy.init_node('nucobot_mice_driver')
     print_all()
@@ -46,27 +72,11 @@ def main():
 
     message = Int32MultiArray()
     for i in xrange(4): message.data.append(0)
-    while not rospy.is_shutdown():
-        for i in xrange(4): message.data[i] = 0
-        r,w,x = select(valid_devices, [], [])
-        for fd in r:
-            for event in valid_devices[fd].read():
-                if event.type == ecodes.EV_REL:
-                    if (fd == left_fd):
-                        if (event.code == ecodes.REL_X):
-                            message.data[0] = event.value
-                            #rospy.loginfo("xleft: --> " + str(event.value))
-                        if (event.code == ecodes.REL_Y):
-                            message.data[1] = event.value
-                            #rospy.loginfo("yleft: --> " + str(event.value))
-                    if (fd == rght_fd):
-                        if (event.code == ecodes.REL_X):
-                            message.data[2] = event.value
-                            #rospy.loginfo("xrght: --> " + str(event.value))
-                        if (event.code == ecodes.REL_Y):
-                            message.data[3] = event.value
-                            #rospy.loginfo("yrght: --> " + str(event.value))
+    while not rospy.is_shutdown(): 
+        res = read_device(valid_devices)
+        for i in xrange(4): message.data[i] += res[i]
         pub.publish(message)
+    
     for dev in valid_devices.values():
         dev.ungrab()
 
