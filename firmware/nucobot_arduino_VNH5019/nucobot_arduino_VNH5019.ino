@@ -8,7 +8,12 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Point.h>
 #include "DualVNH5019MotorShield.h"
-
+/*
+* 1ina 8
+* 1inb 11
+* 2ina 12
+* 2inb 13
+*/
 ros::NodeHandle nh;
 DualVNH5019MotorShield md;
 geometry_msgs::Point wheel_odom_msg;
