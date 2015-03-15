@@ -1,0 +1,28 @@
+#######################################
+# Syntax Coloring Map For GYRO
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+IMU	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+Init	KEYWORD2
+GyroX	KEYWORD2
+GyroY	KEYWORD2
+GyroZ	KEYWORD2
+AcceX	KEYWORD2
+AcceY	KEYWORD2
+AcceZ	KEYWORD2
+
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
