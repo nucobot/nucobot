@@ -443,9 +443,6 @@ if (used_only_cli): exit(0)
 # Print out useful system information
 print_info()
 
-# Remove obsolete config paths
-cleanup()
-
 # Add myself to dialout and do other useful system stuff
 setup_user_permissions()
 
