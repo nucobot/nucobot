@@ -454,8 +454,8 @@ install_project_deps()
 init_workspace() 
 
 # Configure ~/.bashrc for ROS
-bashrc = ("source " + ROS_INSTALL_DIR + "/setup.bash" + GENERATOR_MARKER + '\n') + bashrc
 bashrc = ("source " + LOCAL_BASH_FILE + GENERATOR_MARKER + '\n') + bashrc
+bashrc = ("source " + ROS_INSTALL_DIR + "/setup.bash" + GENERATOR_MARKER + '\n') + bashrc
 bashrc = bashrc + ("export PATH=" + LAUNCHER_DIR + ":$PATH" + GENERATOR_MARKER + '\n')
 
 print wht("")
