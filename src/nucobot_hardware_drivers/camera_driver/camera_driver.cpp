@@ -3,13 +3,13 @@
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
 
-
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 
 using namespace cv;
 
 int main(int, char**)
 {
+    ROS_INFO("Using OpenCV %s", CV_VERSION);
     VideoCapture cap(0); // open the default camera
     if(!cap.isOpened())  // check if we succeeded
         return -1;
