@@ -1,6 +1,6 @@
 <launch>
   <!-- Nucobot Driver -->
-  <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" args="_port:=/dev/ttyUSB0" output="screen" respawn="true"/>
+  <node pkg="rosserial_python" type="serial_node.py" name="rosserial_node" args="_port:=/dev/ttyACM0" output="screen" respawn="true"/>
 
   <!-- The odometry estimator -->
   <!--node pkg="tf" type="static_transform_publisher" name="odom_to_base_footprint_static" args="0 0 0 0 0 0 1 odom base_footprint 100" /-->

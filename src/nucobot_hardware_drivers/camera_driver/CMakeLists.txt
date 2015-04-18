@@ -6,12 +6,13 @@ set(CMAKE_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport geometry_msgs
                                         sensor_msgs std_msgs roscpp tf)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 3.0 REQUIRED)
 
 
 catkin_package()
 
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS} 
+                    ${OpenCV_INCLUDE_DIRS})
 
 add_executable(camera_driver camera_driver.cpp)
 target_link_libraries(camera_driver ${catkin_LIBRARIES} 
